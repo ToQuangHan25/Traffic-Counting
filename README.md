@@ -4,7 +4,6 @@
 This repository contains the official implementation of the traffic tracking and counting system for my engineering project. The model is built using **YOLO11** and **ByteTrack**, specifically fine-tuned to handle challenging weather conditions (heavy rain, snow, night, fog) using the TSBOW dataset.
 
 ## 🌟 Demo Results
-*(Ghi chú: Bạn nhớ upload 4 file ảnh thực tế vào thư mục `assets` trên GitHub để ảnh hiển thị ở đây nhé)*
 
 | Normal Condition | Heavy Snow |
 | :---: | :---: |
