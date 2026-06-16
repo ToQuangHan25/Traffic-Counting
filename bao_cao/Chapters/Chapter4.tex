@@ -1,0 +1,117 @@
+% Chương 4
+
+\chapter{KẾT QUẢ VÀ ĐÁNH GIÁ} % Tên của chương
+
+\label{Chapter4} % Để trích dẫn chương này ở chỗ nào đó trong bài, hãy sử dụng lệnh \ref{Chapter4} 
+
+%----------------------------------------------------------------------------------------
+
+\section{Kết quả huấn luyện}
+
+Sau khi huấn luyện mô hình, ta được kết quả như sau:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{results.png}
+	\caption{Kết quả huấn luyện.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+\subsection{Đánh giá hàm mất mát (Loss Curves)}
+
+Nhìn vào các biểu đồ box\_loss, cls\_loss, dfl\_loss, ta có thể thấy các sai số trên tập huấn luyện giảm đều từ epoch 1 đến 50. Điều này chứng tỏ kiến trúc mạng đang học và trích xuất đặc trưng hình ảnh tốt. Tuy nhiên, trên tập xác thực, giá trị loss giảm dần và đạt mức cực tiểu ở epoch 30 - 35, sau đó có xu hướng tăng nhẹ. Đây là dấu hiệu cho thấy mô hình bắt đầu xảy ra hiện tượng quá khớp (Overfitting) nếu tiếp tục huấn luyện sâu hơn.
+
+\subsection{Đánh giá các chỉ số hiệu suất}
+
+\textbf{Độ chính xác (Precision) và Độ bao quát (Recall)}: Biểu đồ precision và recall đều tăng dần và ổn định ở mức 0.75 - 0.8. Hai chỉ số này cho thấy mô hình đã đạt được sự cân bằng tốt, mô hình dự đoán đúng nhiều hơn và ít bỏ sót đối tượng hơn.
+
+\textbf{Độ chính xác trung bình ($mAP@50$ và $mAP@50-95$)}: Đều tăng mạnh nhưng sau đó giảm nhẹ xuống quanh mức 0.8 và 0.6. Đây là kết quả chấp nhận được, phản ánh khả năng mô hình có thể hoạt động ổn định trong điều kiện thời tiết khắc nghiệt.
+
+\subsection{Đánh giá trên tập kiểm thử}
+
+Sau khi trích xuất mô hình tối ưu nhất (best.pt), mô hình được đưa vào đánh giá độc lập trên tập Kiểm thử (Test set) bao gồm 6.614 hình ảnh với tổng số 152.772 đối tượng (instances).
+
+\begin{table}[htbp]
+	\centering
+	\caption{Kết quả đánh giá trên tập kiểm thử}
+	\label{tab:yolo_metrics}
+	\begin{tabular}{l c c c c c c}
+		\toprule
+		\textbf{Class} & \textbf{Images} & \textbf{Instances} & \textbf{Precision} & \textbf{Recall} & \textbf{mAP@50} & \textbf{mAP@50-95} \\
+		\midrule
+		\textbf{All} & \textbf{6.614} & \textbf{152.772} & \textbf{0,735} & \textbf{0,760} & \textbf{0,763} & \textbf{0,588} \\
+		\midrule
+		unidentified  & 479   & 1.196   & 0,449 & 0,323 & 0,326 & 0,212 \\
+		others        & 3.415 & 21.205  & 0,712 & 0,881 & 0,825 & 0,694 \\
+		pedestrian    & 2.685 & 7.528   & 0,740 & 0,687 & 0,724 & 0,369 \\
+		micromobility & 1.980 & 4.217   & 0,734 & 0,764 & 0,726 & 0,489 \\
+		car           & 6.487 & 105.017 & 0,926 & 0,963 & 0,981 & 0,823 \\
+		bus           & 2.844 & 4.882   & 0,889 & 0,926 & 0,942 & 0,825 \\
+		small truck   & 3.329 & 7.083   & 0,762 & 0,841 & 0,862 & 0,697 \\
+		truck         & 1.287 & 1.644   & 0,671 & 0,696 & 0,721 & 0,597 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Kết quả cho thấy mô hình đạt được độ ổn định cao với chỉ số $mAP@50$ tổng thể đạt 0.763. Trong điều kiện ảnh đầu vào bị nhiễu bởi thời tiết xấu, đây là một kết quả tốt. Cụ thể hơn:
+\begin{itemize}
+	\item Mô hình nhận diện tốt với các phương tiện có kích thước hiển thị lớn và cấu trúc rõ ràng. Ví dụ: lớp Ô tô (car) đạt $mAP@50$ lên tới 0.981, lớp Xe buýt (bus) đạt 0.942 và lớp Xe tải nhỏ (small truck) đạt 0.862.
+	
+	\item Các đối tượng kích thước bé như Người đi bộ (pedestrian) và Phương tiện nhỏ (micromobility) đạt điểm $mAP@50$ lần lượt là 0.724 và 0.726. Dù thấp hơn, nhưng điểm số này phản ánh đúng thực tế khách quan do các đối tượng này chỉ chiếm một số lượng pixel rất nhỏ trên khung hình và dễ bị nhiễu bởi hiện tượng thời tiết.
+	
+	\item Lớp Không xác định (unidentified) có điểm số thấp nhất (0.326). Kết quả này hoàn toàn hợp lý vì bản thân các đối tượng này đã thiếu đặc trưng ngay từ khâu gán nhãn thủ công của con người.
+\end{itemize}
+
+\section{Kết quả thực nghiệm}
+
+Sau khi mô hình được huấn luyện, hệ thống được đưa vào chạy thực nghiệm trên các đoạn video giao thông thực tế với 4 kịch bản môi trường điển hình: Điều kiện bình thường (ban ngày), Mưa lớn, Tuyết rơi và Ban đêm.
+
+\subsection{Đánh giá trong điều kiện thời tiết bình thường}
+
+Trong điều kiện ánh sáng tốt, hệ thống hoạt động với độ chính xác gần như tuyệt đối. Mô hình dễ dàng nhận diện phương tiện với độ tự tin rất cao (trên 0.9). Thuật toán ByteTrack duy trì quỹ đạo ổn định, hệ thống đếm hoạt động tốt, không bỏ sót hoặc đếm lặp phương tiện.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ket_qua_sun.png}
+	\caption{Kết quả thực nghiệm trong điều kiện thời tiết bình thường.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+\subsection{Đánh giá trong điều kiện thời tiết khắc nghiệt}
+
+Kết quả thực nghiệm cho thấy hệ thống vẫn nhận diện và đếm số lượng phương tiện tốt khi điều kiện thời tiết không quá khắc nghiệt (Lượng mưa/tuyết không quá dày đặc, môi trường ban đêm vẫn có ánh sáng đèn đường). Tuy nhiên, với cường độ cực đoan hơn (Mưa lớn, tuyết dày, hoặc ban đêm ở các góc thiếu sáng), mô hình chỉ có thể nhận diện phương tiện với độ tự tin ở mức trung bình hoặc thấp, đôi khi mất dấu hoàn toàn phương tiện, dẫn đến việc đếm không còn chính xác.
+
+\begin{figure}[htbp]
+	\centering
+	
+	% Ảnh 1
+	\subfigure[Mưa lớn]{
+		\includegraphics[width=0.8\textwidth]{ket_qua_rain.png}
+		\label{fig:mua_lon}
+	}
+	\vspace{0.2cm}
+	% Ảnh 2
+	\subfigure[Tuyết rơi]{
+		\includegraphics[width=0.8\textwidth]{ket_qua_snow.png}
+		\label{fig:tuyet_roi}
+	}
+	\vspace{0.2cm}
+	% Ảnh 3
+	\subfigure[Ban đêm]{
+		\includegraphics[width=0.8\textwidth]{ket_qua_night.png}
+		\label{fig:ban_dem}
+	}
+	\caption{Kết quả thực nghiệm trong các điều kiện thời tiết khắc nghiệt}
+	\label{fig:so_sanh_thoi_tiet}
+\end{figure}
+
+\subsection{Đánh giá các yếu tố khác}
+
+Mặc dù đã áp dụng nhiều kỹ thuật tối ưu từ khâu nhận diện đến logic đếm, hệ thống vẫn tồn tại một số giới hạn nhất định do các rào cản vật lý và bản chất của thuật toán:
+\begin{itemize}
+	\item \textbf{Ảnh hưởng của chất lượng video}: Các video chất lượng thấp, mờ nhòe gây khó khăn rất lớn cho quá trình nhận diện xe. Trong hầu hết các trường hợp trên, hệ thống đã không nhận diện đúng hoặc không nhận diện được xe ở khoảng cách trung bình đến xa, làm quá trình đếm trở nên thiếu chính xác.
+	
+	\item \textbf{Vị trí thiết lập vùng đếm}: Do phương tiện ở càng xa thì kích thước pixel càng nhỏ, mô hình càng khó nhận diện. Do đó, hệ thống chỉ hoạt động hiệu quả khi vùng đếm được đặt ở khoảng cách gần.
+	
+	\item \textbf{Giới hạn của cơ chế lọc nhiễu}: Bộ lọc nhiễu hoạt động tốt trong phần lớn các trường hợp để chống đếm lặp. Tuy nhiên, nếu các phương tiện di chuyển quá sát nhau hoặc di chuyển trong điều kiện thời tiết cực đoan, bộ lọc vẫn có thể xảy ra sai số, gây ra hiện tượng bỏ sót hoặc đếm lặp.
+\end{itemize}

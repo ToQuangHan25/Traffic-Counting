@@ -1,0 +1,264 @@
+% Chương 2
+
+\chapter{CƠ SỞ LÝ THUYẾT} % Tên của chương
+
+\label{Chapter2} % Để trích dẫn chương này ở chỗ nào đó trong bài, hãy sử dụng lệnh \ref{Chapter2} 
+
+%----------------------------------------------------------------------------------------
+
+\section{Bài toán nhận diện vật thể}
+
+Nhận diện vật thể (Object Detection) là một trong những bài toán thuộc lĩnh vực thị giác máy tính. Mục tiêu của bài toán là phát hiện sự hiện diện của vật thể, xác định vị trí của chúng trong ảnh, video và phân loại vào các lớp khác nhau.
+
+Đầu ra của một mô hình nhận diện vật thể tiêu chuẩn bao gồm ba thông tin chính:
+\begin{itemize}
+	\item \textbf{Hộp giới hạn (Bounding Box)}: Thường được biểu diễn dưới dạng tọa độ $(x, y, w, h)$, trong đó $(x, y)$ là tọa độ tâm của hộp, $w$ là chiều rộng và $h$ là chiều cao.
+	
+	\item \textbf{Nhãn lớp (Class Label)}: Phân loại vật thể thuộc nhóm nào (Ví dụ: Car, Truck, Pedestrian).
+	
+	\item \textbf{Độ tự tin (Confidence Score)}: Giá trị xác suất biểu thị mức độ chắc chắn của mô hình về dự đoán của mình.
+\end{itemize}
+
+Trong những năm gần đây, sự phát triển của Mạng nơ-ron tích chập (CNN) đã chia bài toán này thành hai mô hình: \textbf{Mô hình hai giai đoạn (Two-stage Detectors)} điển hình là Faster R-CNN có độ chính xác cao nhưng xử lý chậm, và \textbf{mô hình một giai đoạn (One-stage Detectors)} điển hình là YOLO dự đoán trực tiếp tọa độ và nhãn lớp trong một lần quét, đáp ứng yêu cầu xử lý thời gian thực của các hệ thống camera giao thông \cite{detection}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{detection models.png}
+	\caption{Mô hình một giai đoạn và mô hình hai giai đoạn.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+\subsection{Mô hình hai giai đoạn}
+
+Quá trình nhận diện được chia làm hai bước tuần tự tách biệt:
+\begin{itemize}
+	\item \textbf{Giai đoạn 1 - Trích xuất vùng đề xuất (Region Proposals)}: Thay vì quét toàn bộ ảnh, mô hình tạo ra một tập hợp các đề xuất về các khu vực có khả năng chứa đối tượng.
+	
+	\item \textbf{Giai đoạn 2 - Phân loại và Tinh chỉnh (Classification \& Regression)}: Các vùng đề xuất từ giai đoạn 1 sẽ được cắt ra và đưa qua một mạng nơ-ron khác để thực hiện hai nhiệm vụ song song: (1) Phân loại xem vật thể trong vùng đó thuộc lớp nào và (2) hồi quy tọa độ hộp giới hạn (Bounding Box Regression) để khớp chính xác với vật thể.
+\end{itemize}
+
+Việc chia nhỏ bài toán giúp mô hình hai giai đoạn đạt được độ chính xác (Accuracy) cao, khả năng nhận diện vật thể nhỏ tốt. Tuy nhiên, do phải thực hiện hai bước tính toán, tốc độ xử lý chậm hơn mô hình một giai đoạn \cite{detection}.
+
+\subsection{Mô hình một giai đoạn}
+
+Mô hình một giai đoạn loại bỏ việc tìm kiếm vùng đề xuất, chuyển bài toán nhận diện vật thể thành một bài toán hồi quy duy nhất (Single Regression Problem).
+
+Bức ảnh đầu vào chỉ đi qua mạng nơ-ron tích chập đúng một lần duy nhất (Single pass). Thuật toán sẽ chia bức ảnh thành một lưới (Grid). Tại mỗi ô lưới, mạng nơ-ron sẽ dự đoán trực tiếp tọa độ hộp giới hạn (Bounding Box) và xác suất phân lớp (Class probabilities) cùng một lúc cho toàn bộ bức ảnh.
+
+Bằng cách loại bỏ hoàn toàn bước trích xuất vùng đề xuất, kiến trúc một giai đoạn tối ưu hóa luồng dữ liệu, đạt được tốc độ thời gian thực (Real-time speed). Dù trước đây kiến trúc này có độ chính xác thấp hơn, nhưng với các tiến bộ mới của các phiên bản sau, nhược điểm này đã được khắc phục \cite{detection}.
+
+\subsection{Giới thiệu về mô hình YOLO}
+
+YOLO (You Only Look Once) là họ mô hình nhận diện vật thể một giai đoạn tiên tiến nhất hiện nay, nổi bật với tốc độ nhanh chóng và khả năng nhận diện đối tượng trong thời gian thực, được sử dụng trong nhiều ứng dụng thực tế như giám sát an ninh, lái xe tự động, và nhận diện biển số xe \cite{yolo, ultralytics}.
+
+\subsubsection{Nguyên lý cơ bản của YOLO}
+
+Thay vì quét ảnh nhiều lần, thuật toán YOLO chia bức ảnh đầu vào thành một lưới (Grid) kích thước $S \times S$, trong đó mỗi ô lưới chịu trách nhiệm phát hiện các đối tượng có tọa độ tâm rơi vào bên trong ô đó. Cụ thể, quá trình này diễn ra như sau:
+\begin{itemize}
+	\item \textbf{Chia hình ảnh thành lưới (Grid Division)}: Hình ảnh đầu vào được chia thành một lưới có kích thước $S \times S$. Mỗi ô lưới sẽ đảm nhận việc dự đoán $B$ hộp giới hạn (Bounding Boxes) và xác suất của các lớp đối tượng.
+	
+	\item \textbf{Dự đoán hộp giới hạn (Bounding Box Prediction)}: Mỗi hộp giới hạn được biểu diễn bởi 5 thông số cốt lõi: tọa độ tâm $(x, y)$, chiều rộng $w$, chiều cao $h$ của hộp, và giá trị độ tin cậy (Confidence score) thể hiện mức độ chắc chắn của mô hình về việc có đối tượng tồn tại trong hộp đó.
+	
+	\item \textbf{Bản đồ xác suất lớp (Class Probability Map)}: Song song với việc dự đoán hộp giới hạn, mỗi ô lưới cũng tính toán xác suất có điều kiện của từng lớp đối tượng nếu giả định rằng có một đối tượng đang hiện diện trong ô đó.
+	
+	\item \textbf{Kết hợp dự đoán (Prediction Fusion)}: Thuật toán YOLO sẽ nhân giá trị độ tin cậy của hộp giới hạn với bản đồ xác suất lớp. Kết quả cuối cùng tạo ra một tập hợp các Bounding Box đi kèm nhãn và điểm số, từ đó quyết định vị trí, kích thước và phân loại của đối tượng trên toàn bộ bức ảnh.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{YOLO.png}
+	\caption{Nguyên lý cơ bản của YOLO.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+\subsubsection{Các phiên bản YOLO}
+
+Tính đến thời điểm hiện tại, họ mô hình YOLO đã trải qua nhiều sự thay đổi về kiến trúc nhằm tối ưu hóa giữa tốc độ và độ chính xác: \cite{ultralytics}
+\begin{itemize}
+	\item \textbf{YOLOv1 (2015)}: Phiên bản đầu tiên đặt nền móng cho kiến trúc nhận diện vật thể thời gian thực bằng cách chuyển bài toán nhận diện sang dạng hồi quy đơn lẻ.
+	
+	\item \textbf{YOLOv2 (2016)}: Cải tiến lớn nhờ tích hợp cơ chế Anchor Boxes, chuẩn hóa hàng loạt (Batch Normalization) và khả năng nhận diện hơn 9000 loại đối tượng.
+	
+	\item \textbf{YOLOv3 (2018)}: Sử dụng mạng Darknet-53, bổ sung dự đoán đa quy mô (Multi-scale predictions) giúp tối ưu đáng kể khả năng nhận diện vật thể nhỏ.
+	
+	\item \textbf{YOLOv4 (2020)}: Tối ưu hóa các kỹ thuật tăng cường dữ liệu và kiến trúc mạng (Cơ chế Bag-of-Freebies \& Bag-of-Specials).
+	
+	\item \textbf{YOLOv5 (2020)}: Phát triển trên framework PyTorch bởi Ultralytics, đơn giản hóa quy trình huấn luyện và triển khai mô hình.
+	
+	\item \textbf{YOLOv6 (2022)}: Do tập đoàn Meituan (Trung Quốc) phát triển, định hướng tối ưu phần cứng cho các thiết bị công nghiệp và robot tự hành.
+	
+	\item \textbf{YOLOv7 (2022)}: Tập trung tối ưu hóa kiến trúc mạng để đạt tốc độ và độ chính xác vượt trội tại thời điểm ra mắt.
+	
+	\item \textbf{YOLOv8 (2023)}: Chuyển đổi YOLO thành một framework đa tác vụ gồm: Nhận diện (Detection), phân đoạn (Instance segmentation), phân loại (Classification) và ước tính tư thế (Pose estimation).
+	
+	\item \textbf{YOLOv9 (2024)}: Giới thiệu cơ chế Thông tin gradient lập trình được (PGI) để khắc phục tình trạng mất mát thông tin trong mạng sâu.
+	
+	\item \textbf{YOLOv10 (2024)}: Loại bỏ hoàn toàn thuật toán loại bỏ vật thể trùng lặp NMS (Non-Maximum Suppression), giúp giảm đáng kể độ trễ khi suy luận.
+	
+	\item \textbf{YOLO11 (2024)}: Tối ưu hóa sâu kiến trúc mạng, giảm lượng tham số nhưng tăng độ chính xác trên nhiều tác vụ thị giác.
+	
+	\item \textbf{YOLO26 (2026)}: Phiên bản mới nhất từ Ultralytics, loại bỏ lớp DFL, thiết kế NMS-Free và chuyên biệt hóa cho việc triển khai trên các thiết bị biên (Edge devices) có phần cứng hạn chế.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{YOLO evolution.jpg}
+	\caption{Biểu đồ so sánh độ chính xác (COCO $mAP$) và độ trễ (Latency) giữa các thế hệ YOLO.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+\subsubsection{Kiến trúc YOLO 11}
+
+Phiên bản YOLO11 được phát triển bởi Ultralytics, tiếp tục kế thừa và tối ưu hóa kiến trúc cốt lõi của các phiên bản YOLOv8 và YOLOv10 để nâng cao hiệu năng trích xuất đặc trưng, đặc biệt là khả năng phát hiện các vật thể nhỏ trong điều kiện nhiễu loạn \cite{yolo11}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{YOLO architecture.png}
+	\caption{Kiến trúc YOLO11.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+Cấu trúc lõi của mạng YOLO11 bao gồm ba phần chính:
+\begin{itemize}
+	\item \textbf{Backbone (Xương sống)}: Đóng vai trò trích xuất các đặc trưng từ ảnh đầu vào. YOLO11 sử dụng các khối tích chập tối ưu hóa để trích xuất từ các đặc trưng bậc thấp (cạnh, màu sắc) đến các đặc trưng bậc cao (hình dáng, kết cấu của vật thể), tạo ra các bản đồ đặc trưng ở nhiều độ phân giải khác nhau:
+	\begin{itemize}
+		\item[$\circ$] \textbf{Lớp tích chập (Convolutional Layers)}: YOLO11 duy trì cấu trúc tương tự như các phiên bản trước, sử dụng các lớp tích chập ban đầu để giảm mẫu ảnh. Những lớp này tạo nền tảng cho quá trình trích xuất đặc trưng, giảm dần kích thước không gian trong khi tăng số lượng kênh.
+		
+		\item[$\circ$] \textbf{Khối C3k2}: Một cải tiến đáng kể trong YOLO11 là sự ra đời của khối C3k2, thay thế khối C2f được sử dụng trong các phiên bản trước. Khối C3k2 là một sự cải tiến về mặt tính toán của CSP (Cross Stage Partial) Bottleneck. Thay vì sử dụng một phép tích chập lớn như trong YOLOv8 , C3k2 áp dụng hai phép tích chập 3x3 nhỏ hơn để tối ưu luồng thông tin và giảm chi phí tính toán, giúp tăng tốc độ xử lý trong khi vẫn duy trì khả năng nắm bắt các đặc trưng quan trọng.
+	\end{itemize}
+	
+	\item \textbf{Neck (Cổ mạng)}: Là phần trung gian giữa Backbone và Head, đóng vai trò thu thập và kết hợp các bản đồ đặc trưng (Feature Maps) từ nhiều tầng khác nhau của Backbone và truyền chúng đến Head để chuẩn bị cho việc dự đoán. Cơ chế này giúp mô hình hiệu quả hơn trong việc thu thập thông tin đa tỷ lệ.
+	\begin{itemize}
+		\item[$\circ$] \textbf{Khối C3k2}: Khối C3k2 được thiết kế nhanh hơn và hiệu quả hơn, góp phần nâng cao hiệu suất tổng thể của quá trình tổng hợp đặc trưng. Sau khi thực hiện tăng mẫu và kết hợp, phần Neck trong YOLO11 tích hợp khối cải tiến này, dẫn đến tốc độ và hiệu suất tốt hơn.
+		
+		\item[$\circ$] \textbf{Khối SPPF (Spatial Pyramid Pooling Fast)}: Module này cho phép mạng tổng hợp thông tin bối cảnh từ các vùng có kích thước khác nhau, đặc biệt quan trọng để cải thiện khả năng phát hiện các đối tượng với nhiều kích cỡ khác nhau. YOLO11 vẫn giữ lại khối SPPF từ các phiên bản trước, nhưng bổ sung một khối mới là C2PSA ngay sau đó.
+		
+		\item[$\circ$] \textbf{Khối C2PSA (Cross Stage Partial Spatial Attention)}: là một cải tiến đáng kể giúp tăng cường khả năng chú ý không gian trên các bản đồ đặc trưng. Cơ chế này giúp mô hình tập trung hiệu quả hơn vào các vùng quan trọng trong hình ảnh, giúp cải thiện độ chính xác trong việc phát hiện, đặc biệt đối với các đối tượng nhỏ hoặc bị che khuất một phần. Việc tích hợp C2PSA làm cho YOLO11 khác biệt so với phiên bản tiền nhiệm, YOLOv8, vốn không có cơ chế chú ý cụ thể này.
+	\end{itemize}
+	
+	\item \textbf{Head (Đầu ra)}: Sử dụng các đặc trưng từ Neck nhằm thực hiện các dự đoán cuối cùng để xuất ra tọa độ Bounding Box và xác suất phân lớp mà không cần phụ thuộc vào các hộp neo (Anchor-free).
+\end{itemize}
+
+\section{Bài toán theo dõi đa đối tượng}
+
+Nhận diện chính xác chỉ là bước đầu tiên. Để đếm được lưu lượng giao thông, hệ thống cần giải quyết bài toán Theo dõi đa đối tượng (MOT), đảm bảo Bounding Box của các phương tiện được duy trì nhất quán xuyên suốt các khung hình liên tiếp trong video.
+
+Phương pháp tiếp cận phổ biến hiện nay là Tracking-by-detection. Hệ thống sử dụng các thuật toán theo dõi tiên tiến (như ByteTrack hoặc BoT-SORT) tích hợp sẵn Bộ lọc Kalman (Kalman Filter) để dự đoán quỹ đạo chuyển động học của phương tiện ở khung hình tiếp theo. Sau đó, thuật toán Hungary (Hungarian Algorithm) được sử dụng để ghép  Bounding Box của khung hình hiện tại với khung hình trước đó.
+
+Đặc biệt, ByteTrack mang lại ưu thế lớn trong thời tiết xấu nhờ cơ chế duy trì các Bounding Box có độ tự tin thấp. Thay vì loại bỏ những dự đoán không chắc chắn khi một phương tiện di chuyển trong vùng bị ảnh hưởng bởi điều kiện thời tiết khắc nghiệt, thuật toán vẫn giữ lại và liên kết chúng với quỹ đạo cũ, giúp ID của phương tiện không bị đứt đoạn.
+
+\subsection{Bộ lọc Kalman}
+
+Bộ lọc Kalman (Kalman Filter) \cite{bytetrack} là một thuật toán đệ quy toán học dùng để ước lượng và dự đoán trạng thái tương lai của một hệ thống động (như tọa độ và vận tốc của xe) trong môi trường có nhiều nhiễu.
+
+Trạng thái của mỗi đối tượng thường được biểu diễn bằng vector:
+
+$$x = [u, v, s, r, \dot{u}, \dot{v}, \dot{s}]$$
+
+Trong đó $(u,v)$ là tọa độ tâm, $s$ là diện tích, $r$ là tỷ lệ khung hình, và các biến $\dot{u}, \dot{v}, \dot{s}$ là các thành phần vận tốc.
+
+Tại mỗi khung hình (frame), Bộ lọc Kalman thực hiện hai bước:
+\begin{itemize}
+	\item \textbf{Dự đoán (Predict)}: Dựa vào trạng thái và vận tốc ở frame $t-1$, thuật toán sẽ dự đoán vị trí tiếp theo ở frame $t$.
+	
+	\item \textbf{Cập nhật (Update)}: Khi mạng YOLO trả về kết quả phát hiện thực tế ở frame $t$, bộ lọc Kalman sẽ kết hợp giữa "dự đoán" và "thực tế" để tự điều chỉnh lại tọa độ cho chính xác, chuẩn bị cho frame tiếp theo.
+\end{itemize}
+
+\subsection{Thuật toán Hungarian}
+
+Đây là một thuật toán tối ưu hóa tổ hợp để giải quyết bài toán gán tối ưu (Assignment Problem) trong thời gian đa thức. Giả sử tại frame t, thuật toán Kalman dự đoán được 5 quỹ đạo cũ (Tracks), nhưng mạng YOLO lại phát hiện ra 6 Bounding Box mới (Detections). Để biết Box nào thuộc về Track nào, thuật toán sẽ lập một "Ma trận chi phí" (Cost Matrix) giữa tất cả các Tracks và Detections. Chi phí này thường được tính dựa trên mức độ giao thoa hình học IoU (Intersection over Union). Dựa trên ma trận này, Thuật toán Hungarian sẽ tìm ra phương pháp đối khớp tối ưu giữa Track và Detection sao cho tổng chi phí của toàn bộ hệ thống là nhỏ nhất (tức là tổng IoU lớn nhất) \cite{bytetrack}.
+
+\subsection{Nguyên lý hoạt động của Bytetrack}
+
+Các thuật toán theo dõi truyền thống (như SORT hay DeepSORT) thường chỉ lấy các Bounding Box có điểm tự tin cao để đưa vào thuật toán Hungarian và loại bỏ hoàn toàn các Bounding Box có điểm thấp. Điều này cực kỳ rủi ro trong thời tiết xấu hoặc khi phương tiện bị che khuất (Occlusion), vì khi đó điểm tự tin của YOLO bị tụt xuống rất thấp, làm đứt gãy ID theo dõi.
+
+Điểm khác biệt chính của ByteTrack so với các phương pháp trên là cơ chế sử dụng tất cả các detection, kể cả những detection có confidence thấp \cite{bytetrack}.
+
+Nguyên lý hoạt động của Bytetrack:
+\begin{itemize}
+	\item \textbf{Giai đoạn 1}: Sử dụng những Detection có độ tự tin cao để ghép cặp (bằng Hungarian) với những Track cũ (thông qua IoU matching và bộ lọc Kalman).
+	
+	\item \textbf{Giai đoạn 2}: Những Detection có độ tự tin thấp sẽ được ghép cặp với những Track cũ chưa được ghép cặp ở giai đoạn 1. Điều này giúp duy trì quỹ đạo trong trường hợp đối tượng bị che khuất hoặc mô hình nhận diện kém.
+	
+	\item \textbf{Giai đoạn 3}: Sau Giai đoạn 2, đối với các quỹ đạo (Tracks) vẫn không thể đối khớp thành công, ByteTrack không lập tức loại bỏ mà sẽ chuyển chúng sang trạng thái "mất dấu" (Lost Tracks) nhằm duy trì khả năng khôi phục trong trường hợp phương tiện bị che khuất tạm thời. Đồng thời, đối với các kết quả nhận diện (Detections) có độ tin cậy cao nhưng không tìm được Track cũ tương ứng để ghép cặp, hệ thống sẽ tự động khởi tạo các quỹ đạo theo dõi mới. Kết quả cuối cùng tại mỗi khung hình đầu ra là một tập hợp các đối tượng được gán mã định danh (ID) liên tục, đi kèm với thông tin về tọa độ hộp giới hạn và nhãn phân lớp.
+\end{itemize}
+
+\section{Các chỉ số đánh giá mô hình}
+
+Để định lượng khách quan hiệu năng của mô hình nhận diện vật thể và hệ thống đếm phương tiện giao thông, đề tài sử dụng các chỉ số toán học tiêu chuẩn sau:
+
+\subsection{Intersection over Union (IoU)}
+
+IoU là thước đo định lượng mức độ chồng lấp (overlap) giữa bounding box dự đoán và bounding box thực tế (ground truth).
+
+\begin{equation}
+	IoU = \frac{\text{Area}(B_p \cap B_{gt})}{\text{Area}(B_p \cup B_{gt})}
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+	\item $B_p$: Diện tích của Bounding Box dự đoán.
+	
+	\item $B_{gt}$: Diện tích của Bounding Box thực tế.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{iou.png}
+	\caption{Intersection over Union.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+Việc xác định IoU giúp tính toán khả năng phát hiện chính xác vật thể. Nếu giá trị IoU vượt qua một ngưỡng định trước (Ví dụ: 0.5), dự đoán được coi là chính xác (True Positive).
+
+\subsection{Precision (Độ chính xác) và Recall (Độ bao phủ)}
+
+Precision: Tỷ lệ các phát hiện đúng trong tổng số phát hiện của mô hình. Precision cao nghĩa là ít phát hiện sai (false positive).
+
+\begin{equation}
+	Precision = \frac{TP} {TP + FP}
+\end{equation}
+
+Recall: Tỷ lệ đối tượng thực sự được phát hiện trong tổng số đối tượng thực tế. Recall cao nghĩa là ít bỏ sót (false negative)
+
+\begin{equation}
+	Recall = \frac{TP} {TP + FN}
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+	\item TP (True Positive): Số trường hợp được mô hình nhận diện là đúng và thực tế là đúng.
+	
+	\item FP (False Positive): Số trường hợp được mô hình nhận diện là đúng nhưng thực tế là sai.
+	
+	\item FN (False Negative): Số trường hợp được mô hình nhận diện là sai nhưng thực tế là đúng.
+\end{itemize}
+
+\subsection{F1-Score}
+
+Vì Precision và Recall thường có xu hướng đánh đổi lẫn nhau, F1-Score được sử dụng làm trung bình điều hòa của cả hai chỉ số, giúp đánh giá tổng thể độ cân bằng của hệ thống.
+
+\begin{equation}
+	F1 = 2 \times \frac{Precision \times Recall} {Precision + Recall}
+\end{equation}
+
+\subsection{Average Precision (AP) và Mean Average Precision (mAP)}
+
+Chỉ số Average Precision (AP) của một lớp được tính bằng diện tích phần dưới đường cong Precision-Recall:
+
+\begin{equation}
+	AP = \int_{0}^{1} p(r) \, dr
+\end{equation}
+
+$mAP$ là giá trị trung bình cộng của $AP$ trên tất cả các lớp vật thể (từ lớp 1 đến lớp N)
+
+\begin{equation}
+	mAP = \frac{1}{N} \sum_{i=1}^{N} AP_i
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+	\item $mAP@50$ là mAP tính tại ngưỡng $IoU = 0.5$
+	
+	\item $mAP@50-95$ là trung bình mAP tính tại các ngưỡng IoU từ 0.5 đến 0.95 (bước nhảy 0.05)
+\end{itemize}

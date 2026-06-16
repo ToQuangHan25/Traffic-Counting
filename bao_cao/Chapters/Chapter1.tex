@@ -1,0 +1,236 @@
+% Chương 1
+
+\chapter{TỔNG QUAN} % Tên của chương
+
+\label{Chapter1} % Để trích dẫn chương này ở chỗ nào đó trong bài, hãy sử dụng lệnh \ref{Chapter1} 
+
+%----------------------------------------------------------------------------------------
+
+% Định nghĩa một số lệnh cần thiết để điều chỉnh định dạng cho một số nội dung nhất định trong bài
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+
+%----------------------------------------------------------------------------------------
+
+\section{Thị giác máy tính}
+
+Thị giác máy tính (Computer Vision - CV) là một lĩnh vực giao thoa giữa Trí tuệ nhân tạo (AI) và Khoa học máy tính (Computer Science), tập trung vào việc nghiên cứu các kỹ thuật cho phép máy tính có khả năng thu nhận, xử lý và phân tích các hình ảnh hoặc video kỹ thuật số. Về mặt phân cấp hệ thống, CV không hoạt động độc lập mà có mối quan hệ giao thoa chặt chẽ với Học máy (Machine Learning) và Học sâu  (Deep Learning) trong bức tranh tổng thể của Trí tuệ nhân tạo (AI).
+
+Sự giao thoa được thể hiện rõ nét qua việc các mô hình CV hiện đại ngày càng dịch chuyển từ hệ thống xử lý ảnh dựa trên thuật toán thủ công cứng nhắc sang việc áp dụng các kiến trúc Học máy và Học sâu. Các kiến trúc này đóng vai trò như các bộ lọc tự động học mạnh mẽ, giúp trích xuất và tối ưu hóa các đặc trưng hình ảnh phức tạp mà các phương pháp truyền thống không thể chạm tới.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{computer vision.png}
+	\caption{Computer Vision.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+Các lĩnh vực chính của thị giác máy tính bao gồm:
+\begin{itemize}
+	\item \textbf{Phân loại ảnh (Image Classification)}: Xác định ảnh thuộc về một hoặc nhiều lớp.
+	
+	\item \textbf{Phát hiện đối tượng (Object Detection)}: Xác định vị trí và loại đối tượng trong ảnh.
+	
+	\item \textbf{Nhận dạng khuôn mặt (Face Recognition)}: Xác định hoặc xác thực danh tính dựa trên đặc điểm khuôn mặt.
+	
+	\item \textbf{Phân đoạn ảnh (Image Segmentation)}: Chia ảnh thành các vùng tương ứng với từng đối tượng hoặc nền.
+	
+	\item \textbf{Theo dõi đối tượng (Object Tracking)}: Xác định và theo dõi sự di chuyển của đối tượng qua các khung hình video.
+	
+	\item \textbf{Nhận dạng ký tự quang học (Optical Character Recognition - OCR)}: Chuyển đổi văn bản trong ảnh thành văn bản số.
+	
+	\item \textbf{Ước lượng tư thế (Pose Estimation)}: Xác định vị trí và tư thế của cơ thể người hoặc vật thể trong ảnh/video.
+\end{itemize}
+
+\section{Hệ thống giao thông thông minh}
+
+Hệ thống giao thông thông minh (Intelligent Transportation Systems - ITS) là một hệ thống tích hợp toàn diện của các công nghệ viễn thông, điện toán đám mây, cảm biến IoT và Trí tuệ nhân tạo vào việc quản lý, điều hành mạng lưới giao thông. Mục tiêu cốt lõi của ITS là tối ưu hóa lưu lượng phương tiện, giảm thiểu ùn tắc, nâng cao an toàn và tự động hóa các quy trình giám sát (như phạt nguội, điều phối đèn tín hiệu).
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{its.png}
+	\caption{Hệ thống giao thông thông minh.}
+	\label{fig:DHTHHN}
+\end{figure}
+
+ITS thu thập và xử lý dữ liệu từ nhiều nguồn như camera, đèn giao thông và phương tiện, trong đó, hệ thống camera giám sát là một trong những bộ phận quan trọng của toàn bộ mạng lưới, liên tục thu thập dữ liệu về lưu lượng dòng chảy giao thông trên đường.
+
+%----------------------------------------------------------------------------------------
+
+\section{Những vấn đề của bài toán}
+
+Mặc dù các hệ thống nhận diện phương tiện giao thông trong điều kiện bình thường đã đạt được độ chính xác cao, nhưng khi triển khai thực tế trên các hệ thống camera giám sát giao thông, bài toán đối mặt với những thách thức rất lớn:
+\begin{itemize}
+	\item \textbf{Điều kiện môi trường}: Các hiện tượng thời tiết khắc nghiệt như tuyết rơi, mưa lớn hay sương mù làm giảm nghiêm trọng độ tương phản và ranh giới của vật thể. Bên cạnh đó, điều kiện ánh sáng yếu vào ban đêm làm mất đi đặc trưng màu sắc, giảm khả năng phát hiện và nhận diện đối tượng.
+	
+	\item \textbf{Góc nhìn và sự biến thiên kích thước}: Hầu hết camera được lắp đặt ở vị trí cao, tạo ra góc nhìn từ trên xuống. Điều này làm thay đổi hình chiếu của xe (Ví dụ: một chiếc xe SUV nhìn từ trên cao có thể mang đặc trưng ngoại hình giống với một chiếc xe tải nhỏ). Đồng thời, do hiệu ứng xa gần của ống kính camera, các phương tiện ở xa hoặc vật thể nhỏ chỉ chiếm một lượng pixel rất nhỏ, đòi hỏi hệ thống phải có khả năng xử lý chênh lệch kích thước tốt.
+	
+	\item \textbf{Hiện tượng che khuất}: Trong luồng giao thông đông đúc, đối tượng có thể bị che khuất bởi các vật thể khác như cây cối, đèn giao thông hoặc các phương tiện giao thông có kích thước lớn hơn, dẫn đến sai số trong nhận diện và theo dõi.
+\end{itemize}
+
+Để giải quyết các vấn đề này, việc ứng dụng các kỹ thuật tiên tiến trong xử lý hình ảnh, trí tuệ nhân tạo và đặc biệt là các mô hình học sâu hiện đại là yêu cầu cấp thiết để tối ưu hóa hiệu suất và độ chính xác của hệ thống.
+
+\section{Phương pháp giải quyết vấn đề}
+
+\subsection{Phương pháp nhận diện vật thể}
+
+Khác với bài toán phân loại ảnh (Image Classification) truyền thống chỉ trả lời câu hỏi: \textit{"Trong ảnh có gì?"}, bài toán nhận diện vật thể (Object Detection) đòi hỏi hệ thống phải giải quyết đồng thời hai nhiệm vụ: (1) Phân loại chính xác nhãn của đối tượng (Class) và (2) xác định chính xác tọa độ vị trí của đối tượng đó trên mặt phẳng ảnh thông qua Hộp giới hạn (Bounding Box).
+
+Trong đề tài này, em sử dụng mô hình học sâu YOLO. Với khả năng trích xuất đặc trưng đa tỷ lệ và xử lý ảnh trực tiếp qua một lần quét, mô hình có thể nhận diện và phân loại chính xác các vật thể khác nhau, đồng thời đảm bảo được tốc độ xử lý thời gian thực.
+
+\subsection{Phương pháp theo dõi đa đối tượng}
+
+Trong các bài toán phát hiện vật thể tĩnh truyền thống, mô hình chỉ phân tích từng khung hình (frame) một cách độc lập và ánh xạ ma trận pixel thành các tọa độ Bounding Box rời rạc. Tuy nhiên, luồng giao thông thực tế là một dòng chảy thời gian liên tục. Nếu chỉ sử dụng phát hiện độc lập, cùng một chiếc xe trong hai khung hình liên tiếp sẽ bị hệ thống đếm sai thành hai chiếc xe khác nhau.
+
+Do đó, đề tài này tiếp cận bài toán Theo dõi Đa đối tượng (Multi-Object Tracking - MOT). Về mặt logic, bên cạnh việc học một hàm quyết định để phân loại lớp $\hat{y}$ và tọa độ tại thời điểm $t$, hệ thống phải giải quyết bài toán liên kết dữ liệu (Data Association). Khi một phương tiện xuất hiện, hệ thống cấp cho nó một định danh duy nhất (ID). Thông qua thuật toán theo dõi ByteTrack, hệ thống sẽ duy trì quỹ đạo của xe qua từng khung hình, bất kể việc phương tiện bị thay đổi hình dạng hay bị che khuất tạm thời. Nhờ đó mà hệ thống có thể đếm chính xác số lượng phương tiện đang lưu thông.
+
+\subsection{Phương pháp đếm số lượng phương tiện giao thông}
+
+Sau khi các phương tiện được nhận diện và duy trì mã định danh (ID) xuyên suốt các khung hình trong video, bài toán cuối cùng là đếm lưu lượng giao thông.
+
+Trong đề tài này, phương pháp đếm dựa trên Vùng quan tâm (Region of Interest) được sử dụng cho từng làn đường riêng biệt. Hệ thống sẽ liên tục kiểm tra sự thay đổi của tọa độ trọng tâm của phương tiện theo thời gian để ghi nhận trạng thái phương tiện đang tiến vào hay rời khỏi vùng đếm. Cùng với đó, trong các điều kiện thời tiết khắc nghiệt, hình ảnh phương tiện thường bị nhiễu hoặc bị che khuất bởi mưa, sương mù,..., khiến hệ thống theo dõi tạo ra nhiều mã ID ảo cho cùng một phương tiện, gây ra hiện tượng phương tiện đó bị đếm lặp lại nhiều lần. Để khắc phục, đề tài sử dụng bộ lọc nhiễu với cơ chế loại bỏ các ID ảo khỏi hệ thống đếm, đảm bảo sự chính xác của quá trình đếm lưu lượng giao thông.
+
+%----------------------------------------------------------------------------------------
+
+%\subsection{Bảng số liệu}
+
+%Bảng số liệu là một cách hiệu quả để biểu diễn kết quả của bạn, dưới đây là bảng ví dụ được tạo bằng code sau:
+%\begin{Verbatim}
+%\begin{table}[h!]
+%	\caption{Ảnh hưởng của phương pháp điều trị X và Y đối với bốn 
+%			 nhóm được nghiên cứu.}
+%	\label{tab:treatments}
+%	\centering
+%	\begin{tabular}{l l l}
+%		\toprule
+%		\tabhead{Nhóm}&\tabhead{Phương pháp X}&\tabhead{Phương pháp Y}\\
+%		\midrule
+%		1	& 0.20	& 0.80	\\
+%		2	& 0.17	& 0.70	\\
+%		3	& 0.24	& 0.75	\\
+%		4	& 0.68	& 0.30	\\
+%		\bottomrule	\\
+%	\end{tabular}
+%\end{table}
+%\end{Verbatim}
+%
+%\begin{table}[h!]
+%	\caption{Ảnh hưởng của phương pháp điều trị X và Y đối với bốn nhóm được nghiên cứu.}
+%	\label{tab:treatments}
+%	\centering
+%	\begin{tabular}{l l l}
+%		\toprule
+%		\tabhead{Nhóm}&\tabhead{Phương pháp X}&\tabhead{Phương pháp Y}\\
+%		\midrule
+%		1	& 0.20	& 0.80	\\
+%		2	& 0.17	& 0.70	\\
+%		3	& 0.24	& 0.75	\\
+%		4	& 0.68	& 0.30	\\
+%		\bottomrule	\\
+%	\end{tabular}
+%\end{table}
+
+%\subsection{Hình vẽ}
+
+%\begin{Verbatim}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{
+%		VNU Dai hoc Tong hop Ha Noi - 19 Le Thanh Tong.jpeg
+%	}
+%	\caption[Đại học Tổng hợp]{
+%		Đại học Tổng hợp Hà Nội tại 19 Lê Thánh Tông.
+%	}
+%	\label{fig:DHTHHN}
+%\end{figure}
+%\end{Verbatim}
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{VNU Dai hoc Tong hop Ha Noi - 19 Le Thanh Tong.jpeg}
+%	\caption[Đại học Tổng hợp]{Đại học Tổng hợp Hà Nội tại 19 Lê Thánh Tông.}
+%	\label{fig:DHTHHN}
+%\end{figure}
+
+%\subsection{Liệt kê code}
+
+%\begin{Verbatim}
+%\begin{lstlisting}[style=codePython]
+%		while chunk != b'':
+%			# read only 1024 bytes at a time
+%			chunk = file.read(1024)
+%			h.update(chunk)
+%\end{lstlisting}
+%\end{Verbatim}
+
+%\begin{lstlisting}[style=codePython]
+%		while chunk != b'':
+%			# read only 1024 bytes at a time
+%			chunk = file.read(1024)
+%			h.update(chunk)
+%\end{lstlisting}
+
+%\begin{Verbatim}
+%\lstinputlisting[style=codePython,linerange={18-21}]{"Code/Hash.py"}
+%\end{Verbatim}
+
+%\subsection{Gõ công thức toán học}
+
+%\begin{Verbatim}
+%\begin{equation}
+%	E = mc^2
+%	\label{eqn:Einstein}
+%\end{equation}
+%\end{Verbatim}
+
+%\begin{equation}
+%	E = mc^2
+%	\label{eqn:Einstein}
+%\end{equation}
+
+%\begin{Verbatim}
+%\begin{equation}
+%	E_{total} 
+%	= E_0 + E_K 
+%	= m_0 c^2 + m_0 c^2 (\gamma - 1)
+%	= m_0 c^2 + m_0 c^2 \left( \frac{1}{\sqrt{1-\frac{v^2}{c^2}}}-1 \right)
+%	\label{eqn:Einstein2}
+%\end{equation}
+%\end{Verbatim}
+
+%\begin{equation}
+%	E_{total} 
+%	= E_0 + E_K 
+%	= m_0 c^2 + m_0 c^2 (\gamma - 1)
+%	= m_0 c^2 + m_0 c^2 \left( \frac{1}{\sqrt{1-\frac{v^2}{c^2}}}-1 \right)
+%	\label{eqn:Einstein2}
+%\end{equation}
+
+%\begin{Verbatim}
+%\begin{flalign}
+%	E_{total} 
+%	&= E_0 + E_K \\
+%	&= m_0 c^2 + m_0 c^2 (\gamma - 1) \nonumber \\
+%	&= m_0 c^2 + m_0 c^2 \left( \frac{1}{\sqrt{1-\frac{v^2}{c^2}}}-1 \right)
+%\end{flalign}
+%\end{Verbatim}
+
+%\begin{flalign}
+%	E_{total} 
+%	&= E_0 + E_K \\
+%	&= m_0 c^2 + m_0 c^2 (\gamma - 1) \nonumber \\
+%	&= m_0 c^2 + m_0 c^2 \left( \frac{1}{\sqrt{1-\frac{v^2}{c^2}}}-1 \right)
+%\end{flalign}
+
+%\begin{Verbatim}
+%\[ E = mc^2 \]
+%\end{Verbatim}
+%hoặc
+%\begin{Verbatim}
+%\begin{equation*}
+%	E = mc^2
+%\end{equation*}
+%\end{Verbatim}

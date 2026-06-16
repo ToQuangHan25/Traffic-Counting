@@ -1,0 +1,34 @@
+% Phụ lục A
+
+\chapter{Liệt kê source code} % Tên của phụ lục
+
+\label{AppendixA} % Để trích dẫn chương này ở chỗ nào đó trong bài, hãy sử dụng lệnh \ref{AppendixA} 
+
+Để thuận tiện cho việc đánh giá, toàn bộ mã nguồn của hệ thống đã được đưa lên kho lưu trữ GitHub.
+
+\textbf{Mã nguồn đầy đủ:}
+	
+\url{https://github.com/ToQuangHan25/Traffic-Counting.git}
+
+Dưới đây là trích đoạn các mã nguồn cốt lõi thể hiện đóng góp chính của đề tài.
+
+\section{A.1 Cấu hình siêu tham số huấn luyện mô hình}
+
+Code thiết lập các siêu tham số phục vụ cho quá trình huấn luyện mô hình.
+
+File \file{train.py}:
+\lstinputlisting[style=codePython]{"Code/train.py"}
+
+\section{A.2 Trích xuất tọa độ tham chiếu}
+
+Code trích xuất tọa độ điểm theo dõi và chiều cao của phương tiện từ hộp giới hạn.
+
+File \file{center.py}:
+\lstinputlisting[style=codePython]{"Code/center.py"}
+
+\section{A.3 Logic đếm phương tiện}
+
+Code kiểm tra vùng đếm, lọc nhiễu và thống kê lưu lượng phương tiện.
+
+File \file{count.py}:
+\lstinputlisting[style=codePython]{"Code/count.py"}

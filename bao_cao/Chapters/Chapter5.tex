@@ -1,0 +1,31 @@
+% Chương 5
+
+\chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN} % Tên của chương
+
+\label{Chapter5} % Để trích dẫn chương này ở chỗ nào đó trong bài, hãy sử dụng lệnh \ref{Chapter5} 
+
+%----------------------------------------------------------------------------------------
+
+\section{Kết luận}
+
+Đề tài \textbf{"Nhận diện và đếm số lượng phương tiện giao thông trong các điều kiện thời tiết khắc nghiệt"} đã giải quyết thành công mục tiêu đề ra bằng việc kết hợp mô hình nhận diện sử dụng mạng nơ-ron học sâu kết với thuật toán theo dõi. Các kết quả đạt được bao gồm:
+\begin{itemize}
+	\item Nhận diện tốt các vật thể với nhiều kích thước và phân loại khác nhau.
+	
+	\item Duy trì mã định danh ổn định bằng Bytetrack cho các phương tiện xuyên suốt các khung hình.
+	
+	\item Xây dựng logic đếm xe kết hợp với cơ chế lọc nhiễu, loại bỏ hiện tượng đếm lặp.
+\end{itemize}
+
+\section{Hướng phát triển trong tương lai}
+
+Mặc dù hệ thống đã đạt được độ ổn định cao, bài toán phân tích giao thông đô thị vẫn luôn tồn tại những thách thức cần được tiếp tục nghiên cứu. Trong tương lai, đề tài định hướng mở rộng theo các khía cạnh sau:
+\begin{itemize}
+	\item \textbf{Tối ưu hóa luồng xử lý trực tiếp}: Hiện tại, hệ thống tách riêng khâu xử lý và khâu xuất kết quả. Vì vậy, hướng phát triển tiếp theo là xây dựng luồng xử lý song song để hệ thống có khả năng đọc dữ liệu trực tiếp từ các luồng camera giao thông IP, thực hiện xử lý và hiển thị kết quả trong khi đảm bảo tốc độ thời gian thực.
+	
+	\item \textbf{Tăng cường huấn luyện và tinh chỉnh mô hình}: Tiến hành huấn luyện mô hình với số lượng vòng lặp lớn hơn, kết hợp với các chiến lược giảm tỷ lệ học và tinh chỉnh siêu tham số để mô hình hội tụ tốt hơn, học được các đặc trưng vi mô của vật thể, từ đó khắc phục tình trạng nhận diện với độ tự tin thấp trong thời tiết cực đoan.
+	
+	\item \textbf{Tối ưu hóa logic đếm xe}: Tinh chỉnh lại cơ chế lọc nhiễu, đồng thời tích hợp thêm các yếu tố phân tích động học như vận tốc, hướng vector di chuyển của Bounding Box để bộ lọc có khả năng phân biệt chính xác hơn.
+	
+	\item \textbf{Tích hợp mạng tiền xử lý ảnh}: Để cải thiện tình trạng suy giảm chất lượng hình ảnh đầu vào, hệ thống có thể được bổ sung các module tiền xử lý bằng AI (như thuật toán Dehazing khử sương mù, Deraining khử mưa, hoặc Low-light Enhancement tăng cường sáng) để làm sạch khung hình trước khi đưa vào phân tích.
+\end{itemize}
