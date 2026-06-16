@@ -7,9 +7,9 @@ This repository contains the official implementation of the traffic tracking and
 
 | Normal Condition | Heavy Snow |
 | :---: | :---: |
-| ![Sunny](assets/ket_qua_sun.jpg) | ![Snow](assets/ket_qua_snow.jpg) |
+| ![Sunny](assets/ket_qua_sun.png) | ![Snow](assets/ket_qua_snow.png) |
 | **Heavy Rain** | **Night Time** |
-| ![Rain](assets/ket_qua_rain.jpg) | ![Night](assets/ket_qua_night.jpg) |
+| ![Rain](assets/ket_qua_rain.png) | ![Night](assets/ket_qua_night.png) |
 
 ## ✨ Key Features
 - **YOLO11m Architecture:** Optimized for detecting small and highly occluded vehicles.
