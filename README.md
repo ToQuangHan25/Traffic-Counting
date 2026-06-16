@@ -1,4 +1,4 @@
-# Traffic-Counting
+# Nhận diện và đếm số lượng phương tiện giao thông trong các điều kiện thời tiết khắc nghiệt
 ⚖️ License & Acknowledgments
 1. Codebase License:
 The source code (training scripts, object tracking, counting logic) developed in this repository is licensed under the MIT License.
