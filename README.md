@@ -21,8 +21,8 @@ This repository contains the implementation of the traffic tracking and counting
 ## 📂 Project Structure
 The repository consists of three main scripts:
 - `train.ipynb`: Used to train the YOLO11m model on the TSBOW dataset. It includes specific hyperparameter configurations (e.g., `imgsz=1280`) optimized for small objects and extreme weather conditions.
-- `test.ipynb`: Evaluates the trained model on the TSBOW test set, generating objective metrics such as Precision, Recall, and mAP50.
-- `demo.ipynb`: Runs the full pipeline (Detection + Tracking + Counting) on custom videos. It features the polygon-based ROI checking and the Virtual ID Suppression logic to filter out ghost predictions.
+- `test.ipynb`: Evaluates the trained model on the TSBOW test set, generating objective metrics (Precision, Recall, mAP50 and mAP50-95).
+- `demo.ipynb`: Runs the full pipeline (Detection + Tracking + Counting) on custom videos. It features the polygon-based ROI checking and the Virtual ID Suppression logic to filter out double predictions.
 
 ## 🛠️ Installation
 ```bash
