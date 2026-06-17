@@ -30,17 +30,15 @@ The repository consists of three main scripts:
 pip install -r requirements.txt
 ```
 
-⚖️ License & Acknowledgments
-1. Codebase License:
-The source code (training scripts, object tracking, counting logic) developed in this repository is licensed under the MIT License.
+## ⚖️ License & Acknowledgments
+**1. Codebase Copyright:**
+**© 2026 To Quang Han. All Rights Reserved.**
+The source code (training scripts, object tracking, counting logic) in this repository is provided strictly for academic review and portfolio demonstration purposes. Any commercial use, reproduction, modification, or distribution without explicit written permission from the author is strictly prohibited.
 
-2. Dataset License & Attribution:
-This project utilizes the TSBOW (Traffic Surveillance Benchmark for Occluded Vehicles) dataset for training and evaluation.
+**2. Dataset License & Attribution:**
+This project utilizes the **TSBOW (Traffic Surveillance Benchmark for Occluded Vehicles)** dataset for training and evaluation.
 
-- Creators: Automation Lab, Department of Electrical and Computer Engineering, Sungkyunkwan University.
-
-- Paper: TSBOW: Traffic Surveillance Benchmark for Occluded Vehicles Under Various Weather Conditions (AAAI-26)
-
-- License: The TSBOW dataset is distributed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license.
-
-- Disclaimer: This repository does NOT distribute or host the TSBOW dataset or its derivative weights. To access the dataset, please visit the official Hugging Face repository provided by the authors. This project is strictly for non-commercial, academic research purposes.
+- **Creators:** Automation Lab, Department of Electrical and Computer Engineering, Sungkyunkwan University.
+- **Paper:** [TSBOW: Traffic Surveillance Benchmark for Occluded Vehicles Under Various Weather Conditions (AAAI-26)](https://ojs.aaai.org/index.php/AAAI/article/view/37439)
+- **License:** The TSBOW dataset is distributed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.
+- **Disclaimer:** This repository does NOT distribute or host the TSBOW dataset or its derivative weights. To access the dataset, please visit the official Hugging Face repository provided by the authors. This project is strictly for non-commercial, academic research purposes.
