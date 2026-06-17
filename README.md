@@ -5,10 +5,10 @@ This repository contains the official implementation of the traffic tracking and
 
 ## 🌟 Demo Results
 
-| Normal Condition | Heavy Snow |
+| Normal Condition | Snow |
 | :---: | :---: |
 | ![Sunny](assets/ket_qua_sun.png) | ![Snow](assets/ket_qua_snow.png) |
-| **Heavy Rain** | **Night Time** |
+| **Heavy Rain** | **Night** |
 | ![Rain](assets/ket_qua_rain.png) | ![Night](assets/ket_qua_night.png) |
 
 ## ✨ Key Features
