@@ -12,7 +12,7 @@ Nhận diện vật thể (Object Detection) là một trong những bài toán 
 
 Đầu ra của một mô hình nhận diện vật thể tiêu chuẩn bao gồm ba thông tin chính:
 \begin{itemize}
-	\item \textbf{Hộp giới hạn (Bounding Box)}: Thường được biểu diễn dưới dạng tọa độ $(x, y, w, h)$, trong đó $(x, y)$ là tọa độ tâm của hộp, $w$ là chiều rộng và $h$ là chiều cao.
+	\item \textbf{Hộp giới hạn (Bounding box)}: Thường được biểu diễn dưới dạng tọa độ $(x, y, w, h)$, trong đó $(x, y)$ là tọa độ tâm của hộp, $w$ là chiều rộng và $h$ là chiều cao.
 	
 	\item \textbf{Nhãn lớp (Class Label)}: Phân loại vật thể thuộc nhóm nào (Ví dụ: Car, Truck, Pedestrian).
 	
@@ -34,7 +34,7 @@ Quá trình nhận diện được chia làm hai bước tuần tự tách biệ
 \begin{itemize}
 	\item \textbf{Giai đoạn 1 - Trích xuất vùng đề xuất (Region Proposals)}: Thay vì quét toàn bộ ảnh, mô hình tạo ra một tập hợp các đề xuất về các khu vực có khả năng chứa đối tượng.
 	
-	\item \textbf{Giai đoạn 2 - Phân loại và Tinh chỉnh (Classification \& Regression)}: Các vùng đề xuất từ giai đoạn 1 sẽ được cắt ra và đưa qua một mạng nơ-ron khác để thực hiện hai nhiệm vụ song song: (1) Phân loại xem vật thể trong vùng đó thuộc lớp nào và (2) hồi quy tọa độ hộp giới hạn (Bounding Box Regression) để khớp chính xác với vật thể.
+	\item \textbf{Giai đoạn 2 - Phân loại và Tinh chỉnh (Classification \& Regression)}: Các vùng đề xuất từ giai đoạn 1 sẽ được cắt ra và đưa qua một mạng nơ-ron khác để thực hiện hai nhiệm vụ song song: (1) Phân loại xem vật thể trong vùng đó thuộc lớp nào và (2) hồi quy tọa độ hộp giới hạn (Bounding box Regression) để khớp chính xác với vật thể.
 \end{itemize}
 
 Việc chia nhỏ bài toán giúp mô hình hai giai đoạn đạt được độ chính xác (Accuracy) cao, khả năng nhận diện vật thể nhỏ tốt. Tuy nhiên, do phải thực hiện hai bước tính toán, tốc độ xử lý chậm hơn mô hình một giai đoạn \cite{detection}.
@@ -43,7 +43,7 @@ Việc chia nhỏ bài toán giúp mô hình hai giai đoạn đạt được đ
 
 Mô hình một giai đoạn loại bỏ việc tìm kiếm vùng đề xuất, chuyển bài toán nhận diện vật thể thành một bài toán hồi quy duy nhất (Single Regression Problem).
 
-Bức ảnh đầu vào chỉ đi qua mạng nơ-ron tích chập đúng một lần duy nhất (Single pass). Thuật toán sẽ chia bức ảnh thành một lưới (Grid). Tại mỗi ô lưới, mạng nơ-ron sẽ dự đoán trực tiếp tọa độ hộp giới hạn (Bounding Box) và xác suất phân lớp (Class probabilities) cùng một lúc cho toàn bộ bức ảnh.
+Bức ảnh đầu vào chỉ đi qua mạng nơ-ron tích chập đúng một lần duy nhất (Single pass). Thuật toán sẽ chia bức ảnh thành một lưới (Grid). Tại mỗi ô lưới, mạng nơ-ron sẽ dự đoán trực tiếp tọa độ hộp giới hạn (Bounding box) và xác suất phân lớp (Class probabilities) cùng một lúc cho toàn bộ bức ảnh.
 
 Bằng cách loại bỏ hoàn toàn bước trích xuất vùng đề xuất, kiến trúc một giai đoạn tối ưu hóa luồng dữ liệu, đạt được tốc độ thời gian thực (Real-time speed). Dù trước đây kiến trúc này có độ chính xác thấp hơn, nhưng với các tiến bộ mới của các phiên bản sau, nhược điểm này đã được khắc phục \cite{detection}.
 
@@ -55,13 +55,13 @@ YOLO (You Only Look Once) là họ mô hình nhận diện vật thể một gia
 
 Thay vì quét ảnh nhiều lần, thuật toán YOLO chia bức ảnh đầu vào thành một lưới (Grid) kích thước $S \times S$, trong đó mỗi ô lưới chịu trách nhiệm phát hiện các đối tượng có tọa độ tâm rơi vào bên trong ô đó. Cụ thể, quá trình này diễn ra như sau:
 \begin{itemize}
-	\item \textbf{Chia hình ảnh thành lưới (Grid Division)}: Hình ảnh đầu vào được chia thành một lưới có kích thước $S \times S$. Mỗi ô lưới sẽ đảm nhận việc dự đoán $B$ hộp giới hạn (Bounding Boxes) và xác suất của các lớp đối tượng.
+	\item \textbf{Chia hình ảnh thành lưới (Grid Division)}: Hình ảnh đầu vào được chia thành một lưới có kích thước $S \times S$. Mỗi ô lưới sẽ đảm nhận việc dự đoán $B$ hộp giới hạn (Bounding box) và xác suất của các lớp đối tượng.
 	
-	\item \textbf{Dự đoán hộp giới hạn (Bounding Box Prediction)}: Mỗi hộp giới hạn được biểu diễn bởi 5 thông số cốt lõi: tọa độ tâm $(x, y)$, chiều rộng $w$, chiều cao $h$ của hộp, và giá trị độ tin cậy (Confidence score) thể hiện mức độ chắc chắn của mô hình về việc có đối tượng tồn tại trong hộp đó.
+	\item \textbf{Dự đoán hộp giới hạn (Bounding box Prediction)}: Mỗi hộp giới hạn được biểu diễn bởi 5 thông số cốt lõi: tọa độ tâm $(x, y)$, chiều rộng $w$, chiều cao $h$ của hộp, và giá trị độ tin cậy (Confidence score) thể hiện mức độ chắc chắn của mô hình về việc có đối tượng tồn tại trong hộp đó.
 	
 	\item \textbf{Bản đồ xác suất lớp (Class Probability Map)}: Song song với việc dự đoán hộp giới hạn, mỗi ô lưới cũng tính toán xác suất có điều kiện của từng lớp đối tượng nếu giả định rằng có một đối tượng đang hiện diện trong ô đó.
 	
-	\item \textbf{Kết hợp dự đoán (Prediction Fusion)}: Thuật toán YOLO sẽ nhân giá trị độ tin cậy của hộp giới hạn với bản đồ xác suất lớp. Kết quả cuối cùng tạo ra một tập hợp các Bounding Box đi kèm nhãn và điểm số, từ đó quyết định vị trí, kích thước và phân loại của đối tượng trên toàn bộ bức ảnh.
+	\item \textbf{Kết hợp dự đoán (Prediction Fusion)}: Thuật toán YOLO sẽ nhân giá trị độ tin cậy của hộp giới hạn với bản đồ xác suất lớp. Kết quả cuối cùng tạo ra một tập hợp các bounding box đi kèm nhãn và điểm số, từ đó quyết định vị trí, kích thước và phân loại của đối tượng trên toàn bộ bức ảnh.
 \end{itemize}
 
 \begin{figure}[H]
@@ -73,7 +73,7 @@ Thay vì quét ảnh nhiều lần, thuật toán YOLO chia bức ảnh đầu v
 
 \subsubsection{Các phiên bản YOLO}
 
-Tính đến thời điểm hiện tại, họ mô hình YOLO đã trải qua nhiều sự thay đổi về kiến trúc nhằm tối ưu hóa giữa tốc độ và độ chính xác: \cite{ultralytics}
+Tính đến thời điểm hiện tại, họ mô hình YOLO đã trải qua nhiều sự thay đổi về kiến trúc nhằm tối ưu hóa giữa tốc độ và độ chính xác \cite{ultralytics}:
 \begin{itemize}
 	\item \textbf{YOLOv1 (2015)}: Phiên bản đầu tiên đặt nền móng cho kiến trúc nhận diện vật thể thời gian thực bằng cách chuyển bài toán nhận diện sang dạng hồi quy đơn lẻ.
 	
@@ -107,7 +107,7 @@ Tính đến thời điểm hiện tại, họ mô hình YOLO đã trải qua nh
 	\label{fig:DHTHHN}
 \end{figure}
 
-\subsubsection{Kiến trúc YOLO 11}
+\subsubsection{Kiến trúc YOLO11}
 
 Phiên bản YOLO11 được phát triển bởi Ultralytics, tiếp tục kế thừa và tối ưu hóa kiến trúc cốt lõi của các phiên bản YOLOv8 và YOLOv10 để nâng cao hiệu năng trích xuất đặc trưng, đặc biệt là khả năng phát hiện các vật thể nhỏ trong điều kiện nhiễu loạn \cite{yolo11}.
 
@@ -136,16 +136,16 @@ Cấu trúc lõi của mạng YOLO11 bao gồm ba phần chính:
 		\item[$\circ$] \textbf{Khối C2PSA (Cross Stage Partial Spatial Attention)}: là một cải tiến đáng kể giúp tăng cường khả năng chú ý không gian trên các bản đồ đặc trưng. Cơ chế này giúp mô hình tập trung hiệu quả hơn vào các vùng quan trọng trong hình ảnh, giúp cải thiện độ chính xác trong việc phát hiện, đặc biệt đối với các đối tượng nhỏ hoặc bị che khuất một phần. Việc tích hợp C2PSA làm cho YOLO11 khác biệt so với phiên bản tiền nhiệm, YOLOv8, vốn không có cơ chế chú ý cụ thể này.
 	\end{itemize}
 	
-	\item \textbf{Head (Đầu ra)}: Sử dụng các đặc trưng từ Neck nhằm thực hiện các dự đoán cuối cùng để xuất ra tọa độ Bounding Box và xác suất phân lớp mà không cần phụ thuộc vào các hộp neo (Anchor-free).
+	\item \textbf{Head (Đầu ra)}: Sử dụng các đặc trưng từ Neck nhằm thực hiện các dự đoán cuối cùng để xuất ra tọa độ bounding box và xác suất phân lớp mà không cần phụ thuộc vào các hộp neo (Anchor-free).
 \end{itemize}
 
 \section{Bài toán theo dõi đa đối tượng}
 
-Nhận diện chính xác chỉ là bước đầu tiên. Để đếm được lưu lượng giao thông, hệ thống cần giải quyết bài toán Theo dõi đa đối tượng (MOT), đảm bảo Bounding Box của các phương tiện được duy trì nhất quán xuyên suốt các khung hình liên tiếp trong video.
+Nhận diện chính xác chỉ là bước đầu tiên. Để đếm được lưu lượng giao thông, hệ thống cần giải quyết bài toán Theo dõi đa đối tượng (MOT), đảm bảo bounding box của các phương tiện được duy trì nhất quán xuyên suốt các khung hình liên tiếp trong video.
 
-Phương pháp tiếp cận phổ biến hiện nay là Tracking-by-detection. Hệ thống sử dụng các thuật toán theo dõi tiên tiến (như ByteTrack hoặc BoT-SORT) tích hợp sẵn Bộ lọc Kalman (Kalman Filter) để dự đoán quỹ đạo chuyển động học của phương tiện ở khung hình tiếp theo. Sau đó, thuật toán Hungary (Hungarian Algorithm) được sử dụng để ghép  Bounding Box của khung hình hiện tại với khung hình trước đó.
+Phương pháp tiếp cận phổ biến hiện nay là Tracking-by-detection. Hệ thống sử dụng các thuật toán theo dõi tiên tiến (như ByteTrack hoặc BoT-SORT) tích hợp sẵn Bộ lọc Kalman (Kalman Filter) để dự đoán quỹ đạo chuyển động học của phương tiện ở khung hình tiếp theo. Sau đó, thuật toán Hungary (Hungarian Algorithm) được sử dụng để ghép  bounding box của khung hình hiện tại với khung hình trước đó.
 
-Đặc biệt, ByteTrack mang lại ưu thế lớn trong thời tiết xấu nhờ cơ chế duy trì các Bounding Box có độ tự tin thấp. Thay vì loại bỏ những dự đoán không chắc chắn khi một phương tiện di chuyển trong vùng bị ảnh hưởng bởi điều kiện thời tiết khắc nghiệt, thuật toán vẫn giữ lại và liên kết chúng với quỹ đạo cũ, giúp ID của phương tiện không bị đứt đoạn.
+Đặc biệt, ByteTrack mang lại ưu thế lớn trong thời tiết xấu nhờ cơ chế duy trì các bounding box có độ tự tin thấp. Thay vì loại bỏ những dự đoán không chắc chắn khi một phương tiện di chuyển trong vùng bị ảnh hưởng bởi điều kiện thời tiết khắc nghiệt, thuật toán vẫn giữ lại và liên kết chúng với quỹ đạo cũ, giúp ID của phương tiện không bị đứt đoạn.
 
 \subsection{Bộ lọc Kalman}
 
@@ -166,21 +166,21 @@ Tại mỗi khung hình (frame), Bộ lọc Kalman thực hiện hai bước:
 
 \subsection{Thuật toán Hungarian}
 
-Đây là một thuật toán tối ưu hóa tổ hợp để giải quyết bài toán gán tối ưu (Assignment Problem) trong thời gian đa thức. Giả sử tại frame t, thuật toán Kalman dự đoán được 5 quỹ đạo cũ (Tracks), nhưng mạng YOLO lại phát hiện ra 6 Bounding Box mới (Detections). Để biết Box nào thuộc về Track nào, thuật toán sẽ lập một "Ma trận chi phí" (Cost Matrix) giữa tất cả các Tracks và Detections. Chi phí này thường được tính dựa trên mức độ giao thoa hình học IoU (Intersection over Union). Dựa trên ma trận này, Thuật toán Hungarian sẽ tìm ra phương pháp đối khớp tối ưu giữa Track và Detection sao cho tổng chi phí của toàn bộ hệ thống là nhỏ nhất (tức là tổng IoU lớn nhất) \cite{bytetrack}.
+Đây là một thuật toán tối ưu hóa tổ hợp để giải quyết bài toán gán tối ưu (Assignment Problem) trong thời gian đa thức. Giả sử tại frame t, thuật toán Kalman dự đoán được 5 quỹ đạo cũ (Tracks), nhưng mạng YOLO lại phát hiện ra 6 bounding box mới (Detections). Để biết box nào thuộc về track nào, thuật toán sẽ lập một "Ma trận chi phí" (Cost Matrix) giữa tất cả các tracks và detections. Chi phí này thường được tính dựa trên mức độ giao thoa hình học IoU (Intersection over Union). Dựa trên ma trận này, Thuật toán Hungarian sẽ tìm ra phương pháp đối khớp tối ưu giữa track và detection sao cho tổng chi phí của toàn bộ hệ thống là nhỏ nhất (tức là tổng IoU lớn nhất) \cite{bytetrack}.
 
-\subsection{Nguyên lý hoạt động của Bytetrack}
+\subsection{Nguyên lý hoạt động của ByteTrack}
 
-Các thuật toán theo dõi truyền thống (như SORT hay DeepSORT) thường chỉ lấy các Bounding Box có điểm tự tin cao để đưa vào thuật toán Hungarian và loại bỏ hoàn toàn các Bounding Box có điểm thấp. Điều này cực kỳ rủi ro trong thời tiết xấu hoặc khi phương tiện bị che khuất (Occlusion), vì khi đó điểm tự tin của YOLO bị tụt xuống rất thấp, làm đứt gãy ID theo dõi.
+Các thuật toán theo dõi truyền thống (như SORT hay DeepSORT) thường chỉ lấy các bounding box có điểm tự tin cao để đưa vào thuật toán Hungarian và loại bỏ hoàn toàn các bounding box có điểm thấp. Điều này cực kỳ rủi ro trong thời tiết xấu hoặc khi phương tiện bị che khuất (Occlusion), vì khi đó điểm tự tin của YOLO bị tụt xuống rất thấp, làm đứt gãy ID theo dõi.
 
 Điểm khác biệt chính của ByteTrack so với các phương pháp trên là cơ chế sử dụng tất cả các detection, kể cả những detection có confidence thấp \cite{bytetrack}.
 
-Nguyên lý hoạt động của Bytetrack:
+Nguyên lý hoạt động của ByteTrack:
 \begin{itemize}
-	\item \textbf{Giai đoạn 1}: Sử dụng những Detection có độ tự tin cao để ghép cặp (bằng Hungarian) với những Track cũ (thông qua IoU matching và bộ lọc Kalman).
+	\item \textbf{Giai đoạn 1}: Sử dụng những Detection có độ tự tin cao để ghép cặp (bằng Hungarian) với những track cũ (thông qua IoU matching và bộ lọc Kalman).
 	
-	\item \textbf{Giai đoạn 2}: Những Detection có độ tự tin thấp sẽ được ghép cặp với những Track cũ chưa được ghép cặp ở giai đoạn 1. Điều này giúp duy trì quỹ đạo trong trường hợp đối tượng bị che khuất hoặc mô hình nhận diện kém.
+	\item \textbf{Giai đoạn 2}: Những Detection có độ tự tin thấp sẽ được ghép cặp với những track cũ chưa được ghép cặp ở giai đoạn 1. Điều này giúp duy trì quỹ đạo trong trường hợp đối tượng bị che khuất hoặc mô hình nhận diện kém.
 	
-	\item \textbf{Giai đoạn 3}: Sau Giai đoạn 2, đối với các quỹ đạo (Tracks) vẫn không thể đối khớp thành công, ByteTrack không lập tức loại bỏ mà sẽ chuyển chúng sang trạng thái "mất dấu" (Lost Tracks) nhằm duy trì khả năng khôi phục trong trường hợp phương tiện bị che khuất tạm thời. Đồng thời, đối với các kết quả nhận diện (Detections) có độ tin cậy cao nhưng không tìm được Track cũ tương ứng để ghép cặp, hệ thống sẽ tự động khởi tạo các quỹ đạo theo dõi mới. Kết quả cuối cùng tại mỗi khung hình đầu ra là một tập hợp các đối tượng được gán mã định danh (ID) liên tục, đi kèm với thông tin về tọa độ hộp giới hạn và nhãn phân lớp.
+	\item \textbf{Giai đoạn 3}: Sau Giai đoạn 2, đối với các quỹ đạo (Tracks) vẫn không thể đối khớp thành công, ByteTrack không lập tức loại bỏ mà sẽ chuyển chúng sang trạng thái "mất dấu" (Lost Tracks) nhằm duy trì khả năng khôi phục trong trường hợp phương tiện bị che khuất tạm thời. Đồng thời, đối với các kết quả nhận diện (Detections) có độ tin cậy cao nhưng không tìm được track cũ tương ứng để ghép cặp, hệ thống sẽ tự động khởi tạo các quỹ đạo theo dõi mới. Kết quả cuối cùng tại mỗi khung hình đầu ra là một tập hợp các đối tượng được gán mã định danh (ID) liên tục, đi kèm với thông tin về tọa độ hộp giới hạn và nhãn phân lớp.
 \end{itemize}
 
 \section{Các chỉ số đánh giá mô hình}
@@ -197,9 +197,9 @@ IoU là thước đo định lượng mức độ chồng lấp (overlap) giữa
 
 Trong đó:
 \begin{itemize}
-	\item $B_p$: Diện tích của Bounding Box dự đoán.
+	\item $B_p$: Diện tích của bounding box dự đoán.
 	
-	\item $B_{gt}$: Diện tích của Bounding Box thực tế.
+	\item $B_{gt}$: Diện tích của bounding box thực tế.
 \end{itemize}
 
 \begin{figure}[H]

@@ -51,13 +51,13 @@
 
 \subsubsection{Thống kê dữ liệu}
 
-TSBOW là một bộ dữ liệu quy mô lớn (Large-scale benchmark), vượt trội về số lượng và chất lượng so với các tập dữ liệu về giao thông. Các thống kê nổi bật bao gồm: \cite{tsbow}
+TSBOW là một bộ dữ liệu quy mô lớn (Large-scale benchmark), vượt trội về số lượng và chất lượng so với các tập dữ liệu về giao thông \cite{tsbow}. Các thống kê nổi bật bao gồm:
 \begin{itemize}
 	\item \textbf{Dung lượng video}: Bao gồm 198 video camera giám sát với tổng thời lượng lên tới 32.36 giờ quay thực tế.
 	
 	\item \textbf{Chất lượng hiển thị}: Toàn bộ dữ liệu được chuẩn hóa ở độ phân giải tiêu chuẩn cao 1280x720 pixel.
 	
-	\item \textbf{Số lượng khung hình và gán nhãn}: Tập dữ liệu sở hữu tổng cộng 3.2 triệu khung hình. Trong đó, để đảm bảo độ chính xác cho việc đánh giá, có hơn 48.000 khung hình được gán nhãn thủ công (Manually Labeled). Quá trình này đã tạo ra 1.1 triệu hộp giới hạn (Bounding Boxes). Ngoài ra, có tới 71.1 triệu hộp giới hạn được gán nhãn bán tự động để phục vụ cho các mô hình học sâu lớn.
+	\item \textbf{Số lượng khung hình và gán nhãn}: Tập dữ liệu sở hữu tổng cộng 3.2 triệu khung hình. Trong đó, để đảm bảo độ chính xác cho việc đánh giá, có hơn 48.000 khung hình được gán nhãn thủ công (Manually Labeled). Quá trình này đã tạo ra 1.1 triệu hộp giới hạn. Ngoài ra, có tới 71.1 triệu hộp giới hạn được gán nhãn bán tự động để phục vụ cho các mô hình học sâu lớn.
 \end{itemize}
 
 \begin{figure}[H]
@@ -71,9 +71,9 @@ TSBOW là một bộ dữ liệu quy mô lớn (Large-scale benchmark), vượt 
 
 Dữ liệu được thu thập trên 71 tuyến đường và ngã tư khác nhau, mang lại tính đa dạng cao về bối cảnh \cite{tsbow}.
 
-\textbf{Về phân bố nhãn (Classes)}: Các phương tiện được phân loại thành 8 lớp đối tượng: \textbf{Car (Ô tô con), Bus (Xe buýt), Truck (Xe tải lớn), Small truck (Xe tải nhỏ), Pedestrian (Người đi bộ), Micromobility (Phương tiện cỡ nhỏ như xe máy/xe đạp), Unidentified (Không xác định), và Others (Khác)}. Đặc điểm của phân bố này là sự chênh lệch kích thước vô cùng lớn giữa các phương tiện, đòi hỏi hệ thống phải có khả năng trích xuất đặc trưng đa tỷ lệ \cite{tsbow}.
+\textbf{Về phân bố nhãn (Classes)}: Các phương tiện được phân loại thành 8 lớp đối tượng: \textbf{Car} \textit{(Ô tô)}, \textbf{Bus} \textit{(Xe buýt)}, \textbf{Truck} \textit{(Xe tải lớn)}, \textbf{Small truck} \textit{(Xe tải nhỏ)}, \textbf{Pedestrian} \textit{(Người đi bộ)}, \textbf{Micromobility} \textit{(Phương tiện nhỏ)}, \textbf{Unidentified} \textit{(Không xác định)}, và \textbf{Others} \textit{(Khác)}. Đặc điểm của phân bố này là sự chênh lệch kích thước vô cùng lớn giữa các phương tiện, đòi hỏi hệ thống phải có khả năng trích xuất đặc trưng đa tỷ lệ \cite{tsbow}.
 
-\textbf{Về thuộc tính dữ liệu (Attributes)}: Môi trường của tập dữ liệu được gán nhãn theo 4 điều kiện thời tiết khác nhau: \cite{tsbow}
+\textbf{Về thuộc tính dữ liệu (Attributes)}: Môi trường của tập dữ liệu được gán nhãn theo 4 điều kiện thời tiết khác nhau \cite{tsbow}:
 \begin{itemize}
 	\item \textbf{Thời tiết (Weather)}: Normal (Nắng/Nhiều mây), Haze (Sương mù), Rain (Mưa), và Snow (Tuyết rơi).
 	
@@ -95,25 +95,25 @@ Dữ liệu được thu thập trên 71 tuyến đường và ngã tư khác nh
 
 \subsubsection{Cấu hình phần cứng}
 
-Quá trình huấn luyện và triển khai được thực hiện trên nền tảng điện toán đám mây Google Colab với bộ xử lý đồ họa (GPU) NVIDIA Tesla T4 với 15GB VRAM và bộ xử lý trung tâm (CPU) Intel Xeon 2.00GHz với 12.7GB RAM hệ thống.
+Quá trình huấn luyện và triển khai được thực hiện trên nền tảng điện toán đám mây Google Colab với bộ xử lý đồ họa (GPU) \textbf{NVIDIA Tesla T4} với 15GB VRAM và bộ xử lý trung tâm (CPU) \textbf{Intel Xeon 2.00GHz} với 12.7GB RAM hệ thống.
 
 \subsubsection{Môi trường phần mềm}
 
-\textbf{Ngôn ngữ lập trình}: Python 3 (phiên bản tiêu chuẩn của môi trường Colab).
+\textbf{Ngôn ngữ lập trình Python 3}: Phiên bản tiêu chuẩn của môi trường Colab.
 
-\textbf{Nền tảng tính toán}: Khung làm việc học sâu (Deep Learning Framework) PyTorch, được tích hợp sẵn bộ công cụ NVIDIA CUDA Toolkit để kích hoạt khả năng tăng tốc phần cứng trên GPU.
+\textbf{Khung làm việc học sâu (Deep Learning Framework) PyTorch}: Được tích hợp sẵn bộ công cụ NVIDIA CUDA Toolkit để kích hoạt khả năng tăng tốc phần cứng trên GPU.
 
-\textbf{Thư viện triển khai AI}: Ultralytics – một hệ sinh thái mã nguồn mở, được sử dụng để khởi tạo cấu trúc mạng YOLO, tinh chỉnh siêu tham số (Hyperparameters) và tích hợp thuật toán theo dõi quỹ đạo ByteTrack.
+\textbf{Thư viện triển khai Ultralytics}: Hệ sinh thái mã nguồn mở, được sử dụng để khởi tạo cấu trúc mạng YOLO, tinh chỉnh siêu tham số (Hyperparameters) và tích hợp thuật toán theo dõi quỹ đạo ByteTrack.
 
-\textbf{Thư viện xử lý thị giác}: OpenCV (Open Source Computer Vision Library): Đảm nhiệm việc đọc/ghi luồng video, xử lý từng khung hình, và nội suy đồ họa.
+\textbf{Thư viện xử lý thị giác OpenCV (Open Source Computer Vision Library)}: Đảm nhiệm việc đọc/ghi luồng video, xử lý từng khung hình, và nội suy đồ họa.
 
-\textbf{Thư viện tính toán số học}: NumPy: Được sử dụng để xử lý các phép toán trên ma trận và quản lý mảng dữ liệu.
+\textbf{Thư viện tính toán số học NumPy}: Được sử dụng để xử lý các phép toán trên ma trận và quản lý mảng dữ liệu.
 
 \subsection{Huấn luyện}
 
 Quá trình huấn luyện đòi hỏi sự cân bằng giữa kích thước đầu vào, độ phức tạp của mô hình và giới hạn phần cứng. Đề tài thiết lập cấu hình huấn luyện tối ưu như sau:
 \begin{itemize}
-	\item \textbf{Phân chia tập dữ liệu}: Mặc dù bộ dữ liệu TSBOW gốc sở hữu hơn 3.2 triệu khung hình video, tuy nhiên để tối ưu hóa thời gian huấn luyện và tránh hiện tượng mạng YOLO bị học vẹt (Overfitting) do các khung hình liền kề có sự tương đồng với nhau, đề tài sử dụng phiên bản tập dữ liệu đã được trích xuất mẫu (Sampling) với tổng số 25.114 hình ảnh. Toàn bộ dữ liệu đã được nhóm tác giả cấu trúc sẵn thành 3 tập độc lập, với tỷ lệ phân bổ như sau:
+	\item \textbf{Phân chia tập dữ liệu}: Mặc dù bộ dữ liệu TSBOW gốc sở hữu hơn 3.2 triệu khung hình video, tuy nhiên để tối ưu hóa thời gian huấn luyện và tránh hiện tượng mạng YOLO bị học vẹt (Overfitting) do các khung hình liền kề có sự tương đồng với nhau, đề tài sử dụng phiên bản tập dữ liệu đã được trích xuất mẫu (Sampling) với tổng số 25.114 hình ảnh. Toàn bộ dữ liệu đã được nhóm tác giả cấu trúc sẵn thành 3 tập độc lập, với tỷ lệ phân bổ thể hiện trong Bảng~\ref{dataset_split}:
 	
 %	\begin{table}[h!]
 %		\caption{Thông số môi trường thực nghiệm với cấu hình dữ liệu $1000 \times 2048$}
@@ -137,7 +137,7 @@ Quá trình huấn luyện đòi hỏi sự cân bằng giữa kích thước đ
 	\begin{table}[htbp]
 		\centering
 		\caption{Cấu hình phân chia tập dữ liệu thực nghiệm}
-		\label{tab:dataset_split}
+		\label{dataset_split}
 		% Dùng @{} để xóa khoảng trắng thừa ở hai bên mép bảng, giúp bảng khít với lề văn bản
 		\begin{tabularx}{\textwidth}{@{} l c c X @{}}
 			\toprule
@@ -158,7 +158,7 @@ Quá trình huấn luyện đòi hỏi sự cân bằng giữa kích thước đ
 		
 		\item[$\circ$] \textbf{Chu kỳ huấn luyện}: Quá trình huấn luyện được thiết lập tối đa 50 vòng. Bên cạnh đó còn có cơ chế dừng sớm (Early Stopping), mô hình sẽ dừng huấn luyện nếu chỉ số $mAP$ trên tập Xác thực (Validation) không cải thiện sau 10 vòng liên tiếp. Điều này giúp ngăn chặn hiện tượng quá khớp (Overfitting).
 			
-		\item[$\circ$] \textbf{Kích thước mẫu huấn luyện}: $Batch\_size = 8$. Đây là ngưỡng cấu hình an toàn  để khai thác khả năng của GPU mà không gây tràn bộ nhớ.
+		\item[$\circ$] \textbf{Kích thước mẫu huấn luyện}: \texttt{Batch\_size = 8}. Đây là ngưỡng cấu hình an toàn  để khai thác khả năng của GPU mà không gây tràn bộ nhớ.
 			
 		\item[$\circ$] Ngoài ra còn có một số tham số khác nhằm tối ưu quá trình huấn luyện.
 	\end{itemize}
@@ -180,7 +180,7 @@ Region of Interest (RoI) là một vùng không gian được định nghĩa tro
 	
 	\item Tải khung hình lên nền tảng Roboflow và sử dụng công cụ vẽ Polygon để khoanh vùng thủ công các làn đường.
 	
-	\item Xuất dữ liệu tọa độ $(x, y)$ từ Roboflow và chuyển đổi thành các mảng \textbf{numpy.array} để tích hợp vào mã nguồn hệ thống.
+	\item Xuất dữ liệu tọa độ $(x, y)$ từ Roboflow và chuyển đổi thành các mảng \texttt{numpy.array} để tích hợp vào mã nguồn hệ thống.
 \end{itemize}
 
 \begin{figure}[H]
@@ -196,7 +196,7 @@ Logic đếm xe được thực hiện qua các bước sau:
 \begin{itemize}
 	\item \textbf{Trích xuất tọa độ và đặc trưng}: Khi một phương tiện di chuyển, hệ thống ghi nhận mã định danh (ID) từ thuật toán ByteTrack, sử dụng điểm trung tâm ở cạnh dưới của hộp giới hạn làm điểm theo dõi $(c_x, c_y)$ và tịnh tiến điểm $c_y$ lên một khoảng bằng 15\% chiều cao hộp giới hạn $h$. Việc này giúp chuẩn hóa tọa độ cho mọi kích thước phương tiện, đảm bảo điểm theo dõi luôn nằm trong vùng đếm. Tham số chiều cao $h$ cũng được lưu lại để phục vụ cơ chế lọc nhiễu.
 	
-	\item \textbf{Kiểm tra vùng đếm}: Hệ thống lưu trữ một tập hợp (Set) chứa ID của các phương tiện đã được đếm. Nếu ID đã tồn tại trong danh sách này, phương tiện sẽ bị bỏ qua ở các khung hình tiếp theo nhằm tránh lỗi đếm lặp. Ngược lại, với các ID chưa có trong tập hợp, hệ thống sử dụng hàm \textit{cv2.pointPolygonTest()} để kiểm tra tọa độ $(c_x, c_y)$ có nằm bên trong vùng đếm hay không. Chỉ khi phương tiện tiến vào bên trong vùng đếm, hệ thống mới tiếp tục thực hiện bước tiếp theo.
+	\item \textbf{Kiểm tra vùng đếm}: Hệ thống lưu trữ một tập hợp (Set) chứa ID của các phương tiện đã được đếm. Nếu ID đã tồn tại trong danh sách này, phương tiện sẽ bị bỏ qua ở các khung hình tiếp theo nhằm tránh lỗi đếm lặp. Ngược lại, với các ID chưa có trong tập hợp, hệ thống sử dụng hàm \texttt{cv2.pointPolygonTest()} để kiểm tra tọa độ $(c_x, c_y)$ có nằm bên trong vùng đếm hay không. Chỉ khi phương tiện tiến vào bên trong vùng đếm, hệ thống mới tiếp tục thực hiện bước tiếp theo.
 	
 	\item \textbf{Cơ chế lọc nhiễu}: Khi phương tiện tiến vào vùng đếm, hệ thống tính toán khoảng cách không gian (Euclidean distance) giữa phương tiện mới và các phương tiện đã đi qua trong khoảng thời gian 20 khung hình. Hệ thống sẽ thiết lập một ngưỡng sai lệch tối đa bằng 50\% chiều cao $h$ của hộp giới hạn cũ, và được giới hạn trong khoảng từ 30 đến 70 pixel nhằm thích ứng với sự chênh lệch kích thước của phương tiện. Nếu khoảng cách không gian nhỏ hơn ngưỡng giới hạn này, mã định danh mới sẽ được xác định là một ID ảo, từ đó hệ thống bỏ qua việc tăng biến đếm.
 	

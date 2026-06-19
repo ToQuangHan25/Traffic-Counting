@@ -8,18 +8,18 @@
 
 \section{Kết quả huấn luyện}
 
-Sau khi huấn luyện mô hình, ta được kết quả như sau:
+Sau khi huấn luyện mô hình, ta được kết quả như thể hiện trong Hình~\ref{ket_qua}:
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{results.png}
 	\caption{Kết quả huấn luyện.}
-	\label{fig:DHTHHN}
+	\label{ket_qua}
 \end{figure}
 
-\subsection{Đánh giá hàm mất mát (Loss Curves)}
+\subsection{Đánh giá hàm mất mát}
 
-Nhìn vào các biểu đồ box\_loss, cls\_loss, dfl\_loss, ta có thể thấy các sai số trên tập huấn luyện giảm đều từ epoch 1 đến 50. Điều này chứng tỏ kiến trúc mạng đang học và trích xuất đặc trưng hình ảnh tốt. Tuy nhiên, trên tập xác thực, giá trị loss giảm dần và đạt mức cực tiểu ở epoch 30 - 35, sau đó có xu hướng tăng nhẹ. Đây là dấu hiệu cho thấy mô hình bắt đầu xảy ra hiện tượng quá khớp (Overfitting) nếu tiếp tục huấn luyện sâu hơn.
+Nhìn vào các biểu đồ $box\_loss$, $cls\_loss$, $dfl\_loss$, ta có thể thấy các sai số trên tập huấn luyện giảm đều từ epoch 1 đến 50. Điều này chứng tỏ kiến trúc mạng đang học và trích xuất đặc trưng hình ảnh tốt. Tuy nhiên, trên tập xác thực, giá trị loss giảm dần và đạt mức cực tiểu ở epoch 30 - 35, sau đó có xu hướng tăng nhẹ. Đây là dấu hiệu cho thấy mô hình bắt đầu xảy ra hiện tượng quá khớp (Overfitting) nếu tiếp tục huấn luyện sâu hơn.
 
 \subsection{Đánh giá các chỉ số hiệu suất}
 
@@ -29,12 +29,12 @@ Nhìn vào các biểu đồ box\_loss, cls\_loss, dfl\_loss, ta có thể thấ
 
 \subsection{Đánh giá trên tập kiểm thử}
 
-Sau khi trích xuất mô hình tối ưu nhất (best.pt), mô hình được đưa vào đánh giá độc lập trên tập Kiểm thử (Test set) bao gồm 6.614 hình ảnh với tổng số 152.772 đối tượng (instances).
+Sau khi huấn luyện, ta trích xuất được mô hình tối ưu (best.pt) và tiếp tục đưa vào đánh giá độc lập trên tập Kiểm thử (Test set) bao gồm 6.614 hình ảnh với tổng số 152.772 đối tượng (instances). Từ đó, ta thu được kết quả ở Bảng~\ref{metrics}:
 
 \begin{table}[htbp]
 	\centering
 	\caption{Kết quả đánh giá trên tập kiểm thử}
-	\label{tab:yolo_metrics}
+	\label{metrics}
 	\begin{tabular}{l c c c c c c}
 		\toprule
 		\textbf{Class} & \textbf{Images} & \textbf{Instances} & \textbf{Precision} & \textbf{Recall} & \textbf{mAP@50} & \textbf{mAP@50-95} \\
@@ -81,7 +81,7 @@ Trong điều kiện ánh sáng tốt, hệ thống hoạt động với độ c
 
 Kết quả thực nghiệm cho thấy hệ thống vẫn nhận diện và đếm số lượng phương tiện tốt khi điều kiện thời tiết không quá khắc nghiệt (Lượng mưa/tuyết không quá dày đặc, môi trường ban đêm vẫn có ánh sáng đèn đường). Tuy nhiên, với cường độ cực đoan hơn (Mưa lớn, tuyết dày, hoặc ban đêm ở các góc thiếu sáng), mô hình chỉ có thể nhận diện phương tiện với độ tự tin ở mức trung bình hoặc thấp, đôi khi mất dấu hoàn toàn phương tiện, dẫn đến việc đếm không còn chính xác.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	
 	% Ảnh 1
