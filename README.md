@@ -11,7 +11,7 @@ This repository contains the implementation of the traffic tracking and counting
 | **Heavy Rain** | **Night** |
 | ![Rain](assets/ket_qua_rain.png) | ![Night](assets/ket_qua_night.png) |
 
-🎥 **[Watch the Full Demo Videos on Google Drive Here](https://drive.google.com/drive/folders/14Hu13czW0Rk6GKdDjDTyFmpvDpZVDor2?usp=sharing)**
+🎥 **[Watch the Full Demo Videos on Google Drive](https://drive.google.com/drive/folders/14Hu13czW0Rk6GKdDjDTyFmpvDpZVDor2?usp=sharing)**
 
 ## ✨ Key Features
 - **YOLO11m Architecture:** Optimized for detecting small and highly occluded vehicles.
