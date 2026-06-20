@@ -34,7 +34,7 @@ Quá trình nhận diện được chia làm hai bước tuần tự tách biệ
 \begin{itemize}
 	\item \textbf{Giai đoạn 1 - Trích xuất vùng đề xuất (Region Proposals)}: Thay vì quét toàn bộ ảnh, mô hình tạo ra một tập hợp các đề xuất về các khu vực có khả năng chứa đối tượng.
 	
-	\item \textbf{Giai đoạn 2 - Phân loại và Tinh chỉnh (Classification \& Regression)}: Các vùng đề xuất từ giai đoạn 1 sẽ được cắt ra và đưa qua một mạng nơ-ron khác để thực hiện hai nhiệm vụ song song: (1) Phân loại xem vật thể trong vùng đó thuộc lớp nào và (2) hồi quy tọa độ hộp giới hạn (Bounding box Regression) để khớp chính xác với vật thể.
+	\item \textbf{Giai đoạn 2 - Phân loại và Tinh chỉnh (Classification \& Regression)}: Các vùng đề xuất từ giai đoạn 1 sẽ được cắt ra và đưa qua một mạng nơ-ron khác để thực hiện hai nhiệm vụ song song: (1) Phân loại xem vật thể trong vùng đó thuộc lớp nào và (2) hồi quy tọa độ hộp giới hạn (Bounding Box Regression) để khớp chính xác với vật thể.
 \end{itemize}
 
 Việc chia nhỏ bài toán giúp mô hình hai giai đoạn đạt được độ chính xác (Accuracy) cao, khả năng nhận diện vật thể nhỏ tốt. Tuy nhiên, do phải thực hiện hai bước tính toán, tốc độ xử lý chậm hơn mô hình một giai đoạn \cite{detection}.
@@ -57,7 +57,7 @@ Thay vì quét ảnh nhiều lần, thuật toán YOLO chia bức ảnh đầu v
 \begin{itemize}
 	\item \textbf{Chia hình ảnh thành lưới (Grid Division)}: Hình ảnh đầu vào được chia thành một lưới có kích thước $S \times S$. Mỗi ô lưới sẽ đảm nhận việc dự đoán $B$ hộp giới hạn (Bounding box) và xác suất của các lớp đối tượng.
 	
-	\item \textbf{Dự đoán hộp giới hạn (Bounding box Prediction)}: Mỗi hộp giới hạn được biểu diễn bởi 5 thông số cốt lõi: tọa độ tâm $(x, y)$, chiều rộng $w$, chiều cao $h$ của hộp, và giá trị độ tin cậy (Confidence score) thể hiện mức độ chắc chắn của mô hình về việc có đối tượng tồn tại trong hộp đó.
+	\item \textbf{Dự đoán hộp giới hạn (Bounding Box Prediction)}: Mỗi hộp giới hạn được biểu diễn bởi 5 thông số cốt lõi: tọa độ tâm $(x, y)$, chiều rộng $w$, chiều cao $h$ của hộp, và giá trị độ tin cậy (Confidence score) thể hiện mức độ chắc chắn của mô hình về việc có đối tượng tồn tại trong hộp đó.
 	
 	\item \textbf{Bản đồ xác suất lớp (Class Probability Map)}: Song song với việc dự đoán hộp giới hạn, mỗi ô lưới cũng tính toán xác suất có điều kiện của từng lớp đối tượng nếu giả định rằng có một đối tượng đang hiện diện trong ô đó.
 	
@@ -91,13 +91,13 @@ Tính đến thời điểm hiện tại, họ mô hình YOLO đã trải qua nh
 	
 	\item \textbf{YOLOv8 (2023)}: Chuyển đổi YOLO thành một framework đa tác vụ gồm: Nhận diện (Detection), phân đoạn (Instance segmentation), phân loại (Classification) và ước tính tư thế (Pose estimation).
 	
-	\item \textbf{YOLOv9 (2024)}: Giới thiệu cơ chế Thông tin gradient lập trình được (PGI) để khắc phục tình trạng mất mát thông tin trong mạng sâu.
+	\item \textbf{YOLOv9 (2024)}: Giới thiệu cơ chế Thông tin gradient lập trình được (Programmable Gradient Information - PGI) để khắc phục tình trạng mất mát thông tin trong mạng sâu.
 	
 	\item \textbf{YOLOv10 (2024)}: Loại bỏ hoàn toàn thuật toán loại bỏ vật thể trùng lặp NMS (Non-Maximum Suppression), giúp giảm đáng kể độ trễ khi suy luận.
 	
 	\item \textbf{YOLO11 (2024)}: Tối ưu hóa sâu kiến trúc mạng, giảm lượng tham số nhưng tăng độ chính xác trên nhiều tác vụ thị giác.
 	
-	\item \textbf{YOLO26 (2026)}: Phiên bản mới nhất từ Ultralytics, loại bỏ lớp DFL, thiết kế NMS-Free và chuyên biệt hóa cho việc triển khai trên các thiết bị biên (Edge devices) có phần cứng hạn chế.
+	\item \textbf{YOLO26 (2026)}: Phiên bản mới nhất từ Ultralytics, loại bỏ lớp DFL (Distribution Focal Loss - Hàm mất mát tiêu điểm phân phối), thiết kế NMS-Free và chuyên biệt hóa cho việc triển khai trên các thiết bị biên (Edge devices) có phần cứng hạn chế.
 \end{itemize}
 
 \begin{figure}[H]
@@ -176,9 +176,9 @@ Các thuật toán theo dõi truyền thống (như SORT hay DeepSORT) thường
 
 Nguyên lý hoạt động của ByteTrack:
 \begin{itemize}
-	\item \textbf{Giai đoạn 1}: Sử dụng những Detection có độ tự tin cao để ghép cặp (bằng Hungarian) với những track cũ (thông qua IoU matching và bộ lọc Kalman).
+	\item \textbf{Giai đoạn 1}: Sử dụng những detections có độ tự tin cao để ghép cặp (bằng Hungarian) với những tracks cũ (thông qua IoU matching và bộ lọc Kalman).
 	
-	\item \textbf{Giai đoạn 2}: Những Detection có độ tự tin thấp sẽ được ghép cặp với những track cũ chưa được ghép cặp ở giai đoạn 1. Điều này giúp duy trì quỹ đạo trong trường hợp đối tượng bị che khuất hoặc mô hình nhận diện kém.
+	\item \textbf{Giai đoạn 2}: Những detections có độ tự tin thấp sẽ được ghép cặp với những tracks cũ chưa được ghép cặp ở giai đoạn 1. Điều này giúp duy trì quỹ đạo trong trường hợp đối tượng bị che khuất hoặc mô hình nhận diện kém.
 	
 	\item \textbf{Giai đoạn 3}: Sau Giai đoạn 2, đối với các quỹ đạo (Tracks) vẫn không thể đối khớp thành công, ByteTrack không lập tức loại bỏ mà sẽ chuyển chúng sang trạng thái "mất dấu" (Lost Tracks) nhằm duy trì khả năng khôi phục trong trường hợp phương tiện bị che khuất tạm thời. Đồng thời, đối với các kết quả nhận diện (Detections) có độ tin cậy cao nhưng không tìm được track cũ tương ứng để ghép cặp, hệ thống sẽ tự động khởi tạo các quỹ đạo theo dõi mới. Kết quả cuối cùng tại mỗi khung hình đầu ra là một tập hợp các đối tượng được gán mã định danh (ID) liên tục, đi kèm với thông tin về tọa độ hộp giới hạn và nhãn phân lớp.
 \end{itemize}
